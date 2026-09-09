@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Women Safety App</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            <span>Women<span> Safety App</span></span>
+        </div>
+
+        <nav>
+            <a href="index.html" class="active">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+
+            <a href="contacts.html">
+                <i class="fa-solid fa-users"></i> Contacts
+            </a>
+
+            <a href="location.html">
+                <i class="fa-solid fa-location-dot"></i> Location
+            </a>
+
+            <a href="safety-tips.html">
+                <i class="fa-solid fa-lightbulb"></i> Safety Tips
+            </a>
+
+            <a href="profile.html">
+                <i class="fa-solid fa-user"></i> Profile
+            </a>
+        </nav>
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="welcome">
+                <i class="fa-solid fa-shield-halved"></i>
+                Your Safety, Our Priority
+            </span>
+
+            <h1>
+                Stay Safe.<br>
+                <span>Stay Confident.</span>
+            </h1>
+
+            <p>
+               It is a women safety application designed to provide
+                quick access to emergency services, trusted contacts and
+                location sharing when you need help.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#sos" class="primary-btn">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Emergency SOS
+                </a>
+
+                <a href="location.html" class="secondary-btn">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    Share Location
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Safety Illustration -->
+
+        <div class="hero-card">
+
+            <div class="shield">
+                <i class="fa-solid fa-shield-heart"></i>
+            </div>
+
+            <h3>You're Protected</h3>
+
+            <p>
+                Emergency assistance is just one tap away.
+            </p>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Safety System Active
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SOS SECTION ================= -->
+
+    <section class="sos-section" id="sos">
+
+        <div class="section-heading">
+
+            <span>EMERGENCY ASSISTANCE</span>
+
+            <h2>Need Help?</h2>
+
+            <p>
+                Press the SOS button to activate emergency assistance.
+            </p>
+
+        </div>
+
+
+        <div class="sos-container">
+
+            <button class="sos-button" onclick="activateSOS()">
+
+                <div class="sos-inner">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    <strong>SOS</strong>
+
+                    <small>Emergency</small>
+
+                </div>
+
+            </button>
+
+        </div>
+        
+        <p class="sos-note">
+            <i class="fa-solid fa-circle-info"></i>
+            Use only during an emergency.
+        </p>
+
+    </section>
+
+
+    <!-- ================= QUICK SERVICES ================= -->
+
+    <section class="services">
+
+        <div class="section-heading">
+
+            <span>QUICK ACCESS</span>
+
+            <h2>Emergency Services</h2>
+
+            <p>
+                Quickly access important safety services.
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+
+            <!-- Police -->
+
+            <div class="service-card">
+
+                <div class="service-icon police">
+                    <i class="fa-solid fa-building-shield"></i>
+                </div>
+
+                <div>
+                    <h3>Police</h3>
+
+                    <p>
+                        Contact emergency police services.
+                    </p>
+
+                    <a href="tel:112" class="service-link">
+                        Call 112
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- Ambulance -->
+
+            <div class="service-card">
+
+                <div class="service-icon ambulance">
+                    <i class="fa-solid fa-truck-medical"></i>
+                </div>
+
+                <div>
+                    <h3>Ambulance</h3>
+
+                    <p>
+                        Get medical emergency assistance.
+                    </p>
+
+                    <a href="tel:108" class="service-link">
+                        Call 108
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- Location -->
+
+            <div class="service-card">
+
+                <div class="service-icon location">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div>
+                    <h3>My Location</h3>
+
+                    <p>
+                        Find and share your current location.
+                    </p>
+
+                    <a href="location.html" class="service-link">
+                        View Location
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- Contacts -->
+
+            <div class="service-card">
+
+                <div class="service-icon contacts">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+
+                <div>
+                    <h3>Trusted Contacts</h3>
+
+                    <p>
+                        Contact your trusted family or friends.
+                    </p>
+
+                    <a href="contacts.html" class="service-link">
+                        View Contacts
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features">
+
+        <div class="section-heading">
+
+            <span>SAFETY FEATURES</span>
+
+            <h2>Everything You Need to Stay Safe</h2>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <h3>Instant SOS</h3>
+
+                <p>
+                    Quickly activate an emergency alert
+                    when you need assistance.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-location-crosshairs"></i>
+
+                <h3>Location Sharing</h3>
+
+                <p>
+                    Share your current location with
+                    trusted people.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-address-book"></i>
+
+                <h3>Emergency Contacts</h3>
+
+                <p>
+                    Keep important emergency contacts
+                    available in one place.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <h3>Safety Tips</h3>
+
+                <p>
+                    Learn useful tips and information
+                    for staying safe.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SAFETY MESSAGE ================= -->
+
+    <section class="safety-message">
+
+        <div class="message-icon">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <div>
+
+            <h2>Your Safety Matters</h2>
+
+            <p>
+                Stay aware, stay connected and don't hesitate
+                to ask for help when you need it.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            Women Safety App
+        </div>
+
+        <p>
+            Women Safety & Emergency Assistance Application
+        </p>
+
+        <div class="footer-links">
+
+            <a href="index.html">Home</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="location.html">Location</a>
+            <a href="safety-tips.html">Safety Tips</a>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 Women Safety App. College Project.
+        </div>
+
+    </footer>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
+
