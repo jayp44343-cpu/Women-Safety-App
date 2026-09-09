@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - Women Safety App</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+            <span>
+                Women<span> Safety App</span>
+            </span>
+
+        </div>
+
+
+        <nav>
+
+            <a href="index.html">
+                <i class="fa-solid fa-house"></i>
+                Home
+            </a>
+
+            <a href="contacts.html">
+                <i class="fa-solid fa-users"></i>
+                Contacts
+            </a>
+
+            <a href="location.html">
+                <i class="fa-solid fa-location-dot"></i>
+                Location
+            </a>
+
+            <a href="safety-tips.html">
+                <i class="fa-solid fa-lightbulb"></i>
+                Safety Tips
+            </a>
+
+            <a href="profile.html"
+               class="active">
+
+                <i class="fa-solid fa-user"></i>
+                Profile
+
+            </a>
+
+        </nav>
+
+
+        <a href="login.html"
+           class="login-btn">
+
+            Login
+
+        </a>
+
+    </header>
+
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <section class="page-header">
+
+        <span>
+            <i class="fa-solid fa-user"></i>
+            ACCOUNT
+        </span>
+
+        <h1>My Profile</h1>
+
+        <p>
+            Manage your Women Safety App account information.
+        </p>
+
+    </section>
+
+
+    <!-- ================= PROFILE ================= -->
+
+    <main class="profile-container">
+
+
+        <section class="profile-card">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-header">
+
+                <div class="profile-avatar"
+                     id="profileAvatar">
+
+                    U
+
+                </div>
+
+                <div>
+
+                    <h2 id="profileName">
+                        Women Safety App User
+                    </h2>
+
+                    <p id="profileEmail">
+                        user@example.com
+                    </p>
+
+                    <span class="profile-status">
+
+                        <i class="fa-solid fa-circle"></i>
+
+                        Account Active
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE FORM -->
+
+            <form id="profileForm"
+                  onsubmit="saveProfile(event)">
+
+
+                <div class="profile-grid">
+
+
+                    <!-- Name -->
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter your name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                maxlength="10"
+                                placeholder="10-digit phone number"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- City -->
+
+                    <div class="form-group">
+
+                        <label for="city">
+                            City
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-city"></i>
+
+                            <input
+                                type="text"
+                                id="city"
+                                placeholder="Enter your city"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- SAVE BUTTON -->
+
+                <button type="submit"
+                        class="save-profile-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Profile
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================= SAFETY SETTINGS ================= -->
+
+        <section class="settings-card">
+
+            <div class="settings-title">
+
+                <div class="title-icon">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Safety Settings</h2>
+
+                    <p>
+                        Manage your safety preferences.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Setting 1 -->
+
+            <div class="setting-row">
+
+                <div>
+
+                    <h3>
+                        <i class="fa-solid fa-location-dot"></i>
+                        Location Access
+                    </h3>
+
+                    <p>
+                        Allow the app to access your location
+                        when using location features.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox"
+                           id="locationSetting">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Setting 2 -->
+
+            <div class="setting-row">
+
+                <div>
+
+                    <h3>
+                        <i class="fa-solid fa-bell"></i>
+                        Safety Notifications
+                    </h3>
+
+                    <p>
+                        Enable safety-related notifications.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox"
+                           id="notificationSetting"
+                           checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ================= ACCOUNT ACTIONS ================= -->
+
+        <section class="account-actions">
+
+            <a href="contacts.html"
+               class="account-action">
+
+                <i class="fa-solid fa-users"></i>
+
+                <div>
+
+                    <strong>
+                        Emergency Contacts
+                    </strong>
+
+                    <span>
+                        Manage trusted contacts
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </a>
+
+
+            <a href="safety-tips.html"
+               class="account-action">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <div>
+
+                    <strong>
+                        Safety Tips
+                    </strong>
+
+                    <span>
+                        View safety information
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </a>
+
+
+            <button
+                class="logout-action"
+                onclick="logoutUser()">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <div>
+
+                    <strong>
+                        Logout
+                    </strong>
+
+                    <span>
+                        Sign out of Women Safety App
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right arrow"></i>
+
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+            Women Safety App
+
+        </div>
+
+        <p>
+            Women Safety & Emergency Assistance Application
+        </p>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="contacts.html">
+                Contacts
+            </a>
+
+            <a href="location.html">
+                Location
+            </a>
+
+            <a href="safety-tips.html">
+                Safety Tips
+            </a>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 Women Safety App. College Project.
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
+

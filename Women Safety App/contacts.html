@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Contacts - Women Safety App</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            <span>Women<span> Safety App</span></span>
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+
+            <a href="contacts.html" class="active">
+                <i class="fa-solid fa-users"></i> Contacts
+            </a>
+
+            <a href="location.html">
+                <i class="fa-solid fa-location-dot"></i> Location
+            </a>
+
+            <a href="safety-tips.html">
+                <i class="fa-solid fa-lightbulb"></i> Safety Tips
+            </a>
+
+            <a href="profile.html">
+                <i class="fa-solid fa-user"></i> Profile
+            </a>
+
+        </nav>
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+    </header>
+
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span>
+                <i class="fa-solid fa-shield-halved"></i>
+                SAFETY NETWORK
+            </span>
+
+            <h1>Emergency Contacts</h1>
+
+            <p>
+                Add trusted people who can be contacted during
+                an emergency.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="contacts-container">
+
+
+        <!-- ================= ADD CONTACT ================= -->
+
+        <section class="contact-form-card">
+
+            <div class="card-title">
+
+                <div class="title-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+
+                <div>
+
+                    <h2>Add Trusted Contact</h2>
+
+                    <p>
+                        Add a family member, friend or trusted person.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="contactForm" onsubmit="addContact(event)">
+
+                <div class="form-grid">
+
+                    <!-- Name -->
+
+                    <div class="form-group">
+
+                        <label for="contactName">
+                            Full Name
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            <input
+                                type="text"
+                                id="contactName"
+                                placeholder="Enter contact name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Relationship -->
+
+                    <div class="form-group">
+
+                        <label for="relationship">
+                            Relationship
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-people-arrows"></i>
+
+                            <select id="relationship" required>
+
+                                <option value="">
+                                    Select relationship
+                                </option>
+
+                                <option value="Parent">
+                                    Parent
+                                </option>
+
+                                <option value="Sibling">
+                                    Sibling
+                                </option>
+
+                                <option value="Friend">
+                                    Friend
+                                </option>
+
+                                <option value="Relative">
+                                    Relative
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="form-group">
+
+                        <label for="contactPhone">
+                            Phone Number
+                        </label>
+
+                        <div class="contact-input">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            <input
+                                type="tel"
+                                id="contactPhone"
+                                placeholder="10-digit phone number"
+                                maxlength="10"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="add-contact-btn">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add Contact
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================= CONTACT LIST ================= -->
+
+        <section class="contact-list-card">
+
+            <div class="list-header">
+
+                <div>
+
+                    <span class="small-title">
+                        TRUSTED PEOPLE
+                    </span>
+
+                    <h2>My Emergency Contacts</h2>
+
+                </div>
+
+                <div class="contact-count">
+
+                    <span id="contactCount">0</span>
+
+                    Contacts
+
+                </div>
+
+            </div>
+
+
+            <!-- Contact List -->
+
+            <div id="contactList">
+
+                <!-- Contacts will be inserted here -->
+
+            </div>
+
+
+            <!-- Empty State -->
+
+            <div id="emptyState" class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <h3>No Emergency Contacts</h3>
+
+                <p>
+                    Add a trusted person above so they can
+                    be contacted when needed.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= EMERGENCY NUMBERS ================= -->
+
+        <section class="official-emergency">
+
+            <div class="list-header">
+
+                <div>
+
+                    <span class="small-title">
+                        IMPORTANT
+                    </span>
+
+                    <h2>Emergency Services</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="official-grid">
+
+
+                <!-- Emergency -->
+
+                <div class="official-card">
+
+                    <div class="official-icon">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Emergency</h3>
+
+                        <p>National emergency number</p>
+
+                        <a href="tel:112">
+                            Call 112
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Ambulance -->
+
+                <div class="official-card">
+
+                    <div class="official-icon">
+                        <i class="fa-solid fa-truck-medical"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Ambulance</h3>
+
+                        <p>Medical emergency service</p>
+
+                        <a href="tel:108">
+                            Call 108
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Women Helpline -->
+
+                <div class="official-card">
+
+                    <div class="official-icon">
+                        <i class="fa-solid fa-person-dress"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Women Helpline</h3>
+
+                        <p>Women assistance helpline</p>
+
+                        <a href="tel:181">
+                            Call 181
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Child Helpline -->
+
+                <div class="official-card">
+
+                    <div class="official-icon">
+                        <i class="fa-solid fa-child"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Child Helpline</h3>
+
+                        <p>For children needing assistance</p>
+
+                        <a href="tel:1098">
+                            Call 1098
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            Women Safety App
+        </div>
+
+        <p>
+            Women Safety & Emergency Assistance Application
+        </p>
+
+        <div class="footer-links">
+
+            <a href="index.html">Home</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="location.html">Location</a>
+            <a href="safety-tips.html">Safety Tips</a>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 Women Safety App. College Project.
+        </div>
+
+    </footer>
+
+    <!-- ================= JAVASCRIPT ================= -->
+     
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
+
