@@ -37,7 +37,6 @@ function togglePassword(inputId, iconId) {
 /* =========================================
    SOS FUNCTION
    ========================================= */
-
 function activateSOS() {
 
     const contacts =
@@ -45,74 +44,79 @@ function activateSOS() {
             localStorage.getItem("Women Safety App Contacts")
         ) || [];
 
-    // No trusted contact
     if (contacts.length === 0) {
         alert("Please add at least one trusted contact first.");
         return;
     }
 
-    // Get saved GPS location
-    let latitude = null;
-    let longitude = null;
-
-    const savedLocation =
-        localStorage.getItem("Women Safety App Location");
-
-    if (savedLocation) {
-        try {
-            const location = JSON.parse(savedLocation);
-
-            latitude = location.latitude;
-            longitude = location.longitude;
-
-        } catch (error) {
-            console.log("Saved location error:", error);
-        }
+    if (!navigator.geolocation) {
+        alert("GPS location supported nahi hai.");
+        return;
     }
 
-    // SOS message
-    let message =
-        "🚨 SOS ALERT 🚨\n\n" +
-        "I need help. Please contact me immediately.";
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
 
-    // Add location
-    if (latitude !== null && longitude !== null) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-        const mapLink =
-            "https://www.google.com/maps?q=" +
-            latitude + "," + longitude;
+            const locationLink =
+                "https://www.google.com/maps?q=" +
+                latitude + "," + longitude;
 
-        message +=
-            "\n\n📍 My current location:\n" +
-            mapLink;
-    }
+            const message =
+                "🚨 SOS ALERT 🚨\n\n" +
+                "Mujhe help chahiye.\n" +
+                "Meri current location:\n" +
+                locationLink;
 
-    // Send/open WhatsApp for ALL trusted contacts
-    contacts.forEach(function(contact, index) {
+            // ALL TRUSTED CONTACTS
+            contacts.forEach(function (contact, index) {
 
-        let phone =
-            String(contact.phone).replace(/\D/g, "");
+                let phone =
+                    String(contact.phone).replace(/\D/g, "");
 
-        if (phone.length === 10) {
-            phone = "91" + phone;
+                if (phone.length === 10) {
+                    phone = "91" + phone;
+                }
+
+                const whatsappLink =
+                    "https://wa.me/" +
+                    phone +
+                    "?text=" +
+                    encodeURIComponent(message);
+
+                setTimeout(function () {
+                    window.open(whatsappLink, "_blank");
+                }, index * 2000);
+
+            });
+
+            alert(
+                "SOS location " +
+                contacts.length +
+                " trusted contacts ke liye ready hai."
+            );
+        },
+
+        function (error) {
+
+            if (error.code === 1) {
+                alert("Location permission denied.");
+            } else if (error.code === 2) {
+                alert("Location unavailable.");
+            } else if (error.code === 3) {
+                alert("Location request timed out.");
+            } else {
+                alert("Location nahi mil rahi.");
+            }
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         }
-
-        const whatsappURL =
-            "https://wa.me/" +
-            phone +
-            "?text=" +
-            encodeURIComponent(message);
-
-        setTimeout(function() {
-            window.open(whatsappURL, "_blank");
-        }, index * 1500);
-
-    });
-
-    alert(
-        "SOS location " +
-        contacts.length +
-        " trusted contacts ke liye ready hai."
     );
 }
 /* =========================================
