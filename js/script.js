@@ -38,76 +38,44 @@ function togglePassword(inputId, iconId) {
    SOS FUNCTION
    ========================================= */
 
-function activateSOS() {
+   function activateSOS() {
 
     const contacts =
         JSON.parse(
             localStorage.getItem("Women Safety App Contacts")
         ) || [];
 
-
     // No trusted contact
     if (contacts.length === 0) {
-
-        alert(
-            "Please add at least one trusted contact first."
-        );
-
+        alert("Please add at least one trusted contact first.");
         return;
     }
 
-
-    // First trusted contact
-    const contact = contacts[0];
-
-    let phone =
-        String(contact.phone).replace(/\D/g, "");
-
-    if (phone.length === 10) {
-        phone = "91" + phone;
-    }
-
-
-    // Get already saved GPS location
+    // Saved location
     let latitude = null;
     let longitude = null;
 
     const savedLocation =
-        localStorage.getItem(
-            "Women Safety App Location"
-        );
-
+        localStorage.getItem("Women Safety App Location");
 
     if (savedLocation) {
-
         try {
+            const location = JSON.parse(savedLocation);
 
-            const location =
-                JSON.parse(savedLocation);
-
-            latitude =
-                location.latitude;
-
-            longitude =
-                location.longitude;
+            latitude = location.latitude;
+            longitude = location.longitude;
 
         } catch (error) {
-
-            console.log(
-                "Saved location error:",
-                error
-            );
+            console.log("Saved location error:", error);
         }
     }
-
 
     // SOS message
     let message =
         "🚨 SOS ALERT 🚨\n\n" +
         "I need help. Please contact me immediately.";
 
-
-    // Add saved location if available
+    // Add location if available
     if (
         latitude !== null &&
         longitude !== null
@@ -124,89 +92,29 @@ function activateSOS() {
             mapLink;
     }
 
+    // Send to ALL trusted contacts
+    contacts.forEach(function(contact, index) {
 
-    // Open WhatsApp immediately
-    const whatsappURL =
-        "https://wa.me/" +
-        phone +
-        "?text=" +
-        encodeURIComponent(message);
+        let phone =
+            String(contact.phone).replace(/\D/g, "");
 
-    window.location.href =
-        whatsappURL;
+        if (phone.length === 10) {
+            phone = "91" + phone;
+        }
+
+        const whatsappURL =
+            "https://wa.me/" +
+            phone +
+            "?text=" +
+            encodeURIComponent(message);
+
+        setTimeout(function() {
+            window.open(whatsappURL, "_blank");
+        }, index * 1500);
+
+    });
+
 }
-
-
-/* =========================================
-   LOGIN
-   ========================================= */
-
-function loginUser(event) {
-
-    if (event) {
-        event.preventDefault();
-    }
-
-    const emailElement =
-        document.getElementById("email");
-
-    const passwordElement =
-        document.getElementById("password");
-
-    if (!emailElement || !passwordElement) {
-        return;
-    }
-
-    const email =
-        emailElement.value.trim();
-
-    const password =
-        passwordElement.value.trim();
-
-    if (email === "" || password === "") {
-
-        alert(
-            "Please enter email and password."
-        );
-
-        return;
-    }
-
-
-    const savedUser =
-        JSON.parse(
-            localStorage.getItem(
-                "Women Safety App User"
-            )
-        );
-
-
-    if (
-        savedUser &&
-        savedUser.email === email
-    ) {
-
-        localStorage.setItem(
-            "Women Safety App LoggedIn",
-            "true"
-        );
-
-        alert(
-            "Login successful! Welcome to Women Safety App."
-        );
-
-        window.location.href =
-            "profile.html";
-
-    } else {
-
-        alert(
-            "User not found.\n\n" +
-            "Please signup first or use Demo Login."
-        );
-    }
-}
-
 
 /* =========================================
    DEMO LOGIN
@@ -511,7 +419,13 @@ function addContact(event) {
                 "Women Safety App Contacts"
             )
         ) || [];
-
+        
+        // Maximum 5 trusted contacts
+        if (contacts.length >= 5)
+             {
+                alert("You can save maximum 5 trusted contacts.");
+                return;
+            }
 
     const newContact = {
 
