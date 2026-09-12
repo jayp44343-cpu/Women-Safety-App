@@ -1040,8 +1040,8 @@ function getLocation() {
            ----------------------------------------- */
 
         {
-            enableHighAccuracy: true,
-            timeout: 7000,
+            enableHighAccuracy: false,
+            timeout: 3000,
             maximumAge: 0
         }
     );
