@@ -7,8 +7,9 @@
    COMMON FUNCTIONS
    ========================================= */
 
-// Password show/hide
+// Password show / hide
 function togglePassword(inputId, iconId) {
+
     const input = document.getElementById(inputId);
     const icon = document.getElementById(iconId);
 
@@ -16,13 +17,19 @@ function togglePassword(inputId, iconId) {
 
     if (input.type === "password") {
         input.type = "text";
-        if (icon) icon.textContent = "🙈";
+
+        if (icon) {
+            icon.textContent = "🙈";
+        }
+
     } else {
         input.type = "password";
-        if (icon) icon.textContent = "👁️";
+
+        if (icon) {
+            icon.textContent = "👁️";
+        }
     }
 }
-
 
 /* =========================================
    SOS FUNCTION
@@ -30,63 +37,100 @@ function togglePassword(inputId, iconId) {
 
 function activateSOS() {
 
-    const confirmation = confirm(
-        "Are you sure you want to activate the SOS alert?"
-    );
+    const contacts =
+        JSON.parse(
+            localStorage.getItem("Women Safety App Contacts")
+        ) || [];
 
-    if (!confirmation) return;
 
-    if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser.");
+    // No trusted contact
+    if (contacts.length === 0) {
+
+        alert(
+            "Please add at least one trusted contact first."
+        );
+
         return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-        function (position) {
 
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
+    // First trusted contact
+    const contact = contacts[0];
 
-            const mapLink =
-                "https://www.google.com/maps?q=" +
-                latitude +
-                "," +
-                longitude;
+    let phone =
+        String(contact.phone).replace(/\D/g, "");
 
-            const contacts =
-                JSON.parse(localStorage.getItem("Women Safety App Contacts")) || [];
+    if (phone.length === 10) {
+        phone = "91" + phone;
+    }
 
-            // Save last SOS information
-            localStorage.setItem(
-                "lastSOS",
-                JSON.stringify({
-                    latitude: latitude,
-                    longitude: longitude,
-                    time: new Date().toLocaleString()
-                })
-            );
 
-            alert(
-                "🚨 SOS ACTIVATED!\n\n" +
-                "Your current location:\n" +
-                mapLink +
-                "\n\n" +
-                "Trusted contacts saved: " +
-                contacts.length +
-                "\n\n" +
-                "This is a frontend demonstration."
-            );
-        },
+    // Get already saved GPS location
+    let latitude = null;
+    let longitude = null;
 
-        function () {
-            alert(
-                "Unable to get your location.\n" +
-                "Please allow location permission and try again."
+    const savedLocation =
+        localStorage.getItem(
+            "Women Safety App Location"
+        );
+
+    if (savedLocation) {
+
+        try {
+
+            const location =
+                JSON.parse(savedLocation);
+
+            latitude =
+                location.latitude;
+
+            longitude =
+                location.longitude;
+
+        } catch (error) {
+
+            console.log(
+                "Saved location error:",
+                error
             );
         }
-    );
-}
+    }
 
+
+    // SOS message
+    let message =
+        "🚨 SOS ALERT 🚨\n\n" +
+        "I need help. Please contact me immediately.";
+
+
+    // Add saved location if available
+    if (
+        latitude !== null &&
+        longitude !== null
+    ) {
+
+        const mapLink =
+            "https://www.google.com/maps?q=" +
+            latitude +
+            "," +
+            longitude;
+
+        message +=
+            "\n\n📍 My current location:\n" +
+            mapLink;
+    }
+
+
+    // Open WhatsApp immediately
+    const whatsappURL =
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        encodeURIComponent(message);
+
+    window.location.href =
+        whatsappURL;
+}
 
 /* =========================================
    LOGIN
@@ -98,29 +142,54 @@ function loginUser(event) {
         event.preventDefault();
     }
 
-    const emailElement = document.getElementById("email");
-    const passwordElement = document.getElementById("password");
+    const emailElement =
+        document.getElementById("email");
 
-    if (!emailElement || !passwordElement) return;
+    const passwordElement =
+        document.getElementById("password");
 
-    const email = emailElement.value.trim();
-    const password = passwordElement.value.trim();
+    if (!emailElement || !passwordElement) {
+        return;
+    }
+
+    const email =
+        emailElement.value.trim();
+
+    const password =
+        passwordElement.value.trim();
 
     if (email === "" || password === "") {
-        alert("Please enter email and password.");
+
+        alert(
+            "Please enter email and password."
+        );
+
         return;
     }
 
     const savedUser =
-        JSON.parse(localStorage.getItem("Women Safety App User"));
+        JSON.parse(
+            localStorage.getItem(
+                "Women Safety App User"
+            )
+        );
 
-    if (savedUser && savedUser.email === email) {
+    if (
+        savedUser &&
+        savedUser.email === email
+    ) {
 
-        localStorage.setItem("Women Safety App LoggedIn", "true");
+        localStorage.setItem(
+            "Women Safety App LoggedIn",
+            "true"
+        );
 
-        alert("Login successful! Welcome to Women Safety App.");
+        alert(
+            "Login successful! Welcome to Women Safety App."
+        );
 
-        window.location.href = "profile.html";
+        window.location.href =
+            "profile.html";
 
     } else {
 
@@ -132,33 +201,48 @@ function loginUser(event) {
 }
 
 
-// Demo login
+/* Demo Login */
+
 function demoLogin() {
 
-    localStorage.setItem("Women Safety App LoggedIn", "true");
+    localStorage.setItem(
+        "Women Safety App LoggedIn",
+        "true"
+    );
 
-    alert("Demo login successful!");
+    alert(
+        "Demo login successful!"
+    );
 
-    window.location.href = "profile.html";
+    window.location.href =
+        "profile.html";
 }
 
 
-// Forgot password
+/* Forgot Password */
+
 function forgotPassword(event) {
 
     if (event) {
         event.preventDefault();
     }
 
-    const emailElement = document.getElementById("email");
+    const emailElement =
+        document.getElementById("email");
 
     if (!emailElement) return;
 
-    const email = emailElement.value.trim();
+    const email =
+        emailElement.value.trim();
 
     if (email === "") {
-        alert("Please enter your email address first.");
+
+        alert(
+            "Please enter your email address first."
+        );
+
         emailElement.focus();
+
         return;
     }
 
@@ -180,12 +264,21 @@ function registerUser(event) {
         event.preventDefault();
     }
 
-    const nameElement = document.getElementById("name");
-    const emailElement = document.getElementById("email");
-    const phoneElement = document.getElementById("phone");
-    const passwordElement = document.getElementById("password");
+    const nameElement =
+        document.getElementById("name");
+
+    const emailElement =
+        document.getElementById("email");
+
+    const phoneElement =
+        document.getElementById("phone");
+
+    const passwordElement =
+        document.getElementById("password");
+
     const confirmPasswordElement =
         document.getElementById("confirmPassword");
+
     const termsElement =
         document.getElementById("terms");
 
@@ -199,11 +292,20 @@ function registerUser(event) {
         return;
     }
 
-    const name = nameElement.value.trim();
-    const email = emailElement.value.trim();
-    const phone = phoneElement.value.trim();
-    const password = passwordElement.value;
-    const confirmPassword = confirmPasswordElement.value;
+    const name =
+        nameElement.value.trim();
+
+    const email =
+        emailElement.value.trim();
+
+    const phone =
+        phoneElement.value.trim();
+
+    const password =
+        passwordElement.value;
+
+    const confirmPassword =
+        confirmPasswordElement.value;
 
     if (
         name === "" ||
@@ -212,39 +314,73 @@ function registerUser(event) {
         password === "" ||
         confirmPassword === ""
     ) {
-        alert("Please fill all required fields.");
+
+        alert(
+            "Please fill all required fields."
+        );
+
         return;
     }
 
     if (!email.includes("@")) {
-        alert("Please enter a valid email address.");
+
+        alert(
+            "Please enter a valid email address."
+        );
+
         return;
     }
 
-    if (phone.length < 10) {
-        alert("Please enter a valid phone number.");
+    const cleanPhone =
+        phone.replace(/\D/g, "");
+
+    if (cleanPhone.length < 10) {
+
+        alert(
+            "Please enter a valid phone number."
+        );
+
         return;
     }
 
     if (password.length < 6) {
-        alert("Password must contain at least 6 characters.");
+
+        alert(
+            "Password must contain at least 6 characters."
+        );
+
         return;
     }
 
     if (password !== confirmPassword) {
-        alert("Passwords do not match.");
+
+        alert(
+            "Passwords do not match."
+        );
+
         return;
     }
 
-    if (termsElement && !termsElement.checked) {
-        alert("Please accept the Terms & Conditions.");
+    if (
+        termsElement &&
+        !termsElement.checked
+    ) {
+
+        alert(
+            "Please accept the Terms & Conditions."
+        );
+
         return;
     }
 
     const user = {
+
         name: name,
+
         email: email,
-        phone: phone,
+
+        phone: cleanPhone,
+
         city: ""
     };
 
@@ -258,11 +394,13 @@ function registerUser(event) {
         "You can now login."
     );
 
-    window.location.href = "login.html";
+    window.location.href =
+        "login.html";
 }
 
 
-// Terms and conditions
+/* Terms and Conditions */
+
 function showTerms(event) {
 
     if (event) {
@@ -287,40 +425,69 @@ function addContact(event) {
         event.preventDefault();
     }
 
-    const nameElement = document.getElementById("contactName");
-    const phoneElement = document.getElementById("contactPhone");
+    const nameElement =
+        document.getElementById("contactName");
+
+    const phoneElement =
+        document.getElementById("contactPhone");
+
     const relationshipElement =
         document.getElementById("relationship");
 
-    if (!nameElement || !phoneElement) return;
+    if (!nameElement || !phoneElement) {
+        return;
+    }
 
-    const name = nameElement.value.trim();
-    const phone = phoneElement.value.trim();
+    const name =
+        nameElement.value.trim();
+
+    const phone =
+        phoneElement.value.trim();
 
     const relationship =
         relationshipElement
             ? relationshipElement.value
             : "Other";
 
-    if (name === "" || phone === "") {
-        alert("Please enter contact name and phone number.");
+    if (
+        name === "" ||
+        phone === ""
+    ) {
+
+        alert(
+            "Please enter contact name and phone number."
+        );
+
         return;
     }
 
-    if (phone.length < 10) {
-        alert("Please enter a valid phone number.");
+    const cleanPhone =
+        phone.replace(/\D/g, "");
+
+    if (cleanPhone.length < 10) {
+
+        alert(
+            "Please enter a valid phone number."
+        );
+
         return;
     }
 
     const contacts =
         JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
+            localStorage.getItem(
+                "Women Safety App Contacts"
+            )
         ) || [];
 
     const newContact = {
+
         id: Date.now(),
+
         name: name,
-        phone: phone,
+
+        phone: cleanPhone,
+
         relationship: relationship
     };
 
@@ -331,86 +498,154 @@ function addContact(event) {
         JSON.stringify(contacts)
     );
 
-    alert("Trusted contact added successfully.");
+    alert(
+        "Trusted contact added successfully."
+    );
 
     nameElement.value = "";
+
     phoneElement.value = "";
+
+    if (relationshipElement) {
+        relationshipElement.value = "";
+    }
 
     loadContacts();
 }
 
 
-// Load contacts
+/* Load Contacts */
+
 function loadContacts() {
+
+    const contacts =
+        JSON.parse(
+            localStorage.getItem(
+                "Women Safety App Contacts"
+            )
+        ) || [];
 
     const contactList =
         document.getElementById("contactList");
 
-    if (!contactList) return;
+    const contactCount =
+        document.getElementById("contactCount");
 
-    const contacts =
-        JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
-        ) || [];
+    const emptyContacts =
+        document.getElementById("emptyContacts");
 
+    if (!contactList) {
+        return;
+    }
+
+    /*
+     * Contact count
+     */
+    if (contactCount) {
+
+        contactCount.textContent =
+            `${contacts.length} Contact${contacts.length !== 1 ? "s" : ""}`;
+    }
+
+    /*
+     * No contacts
+     */
     if (contacts.length === 0) {
 
-        contactList.innerHTML =
-            "<p>No trusted contacts added yet.</p>";
+        contactList.innerHTML = "";
+
+        if (emptyContacts) {
+            emptyContacts.style.display =
+                "block";
+        }
 
         return;
     }
 
-    contactList.innerHTML = "";
+    /*
+     * Contacts available
+     */
+    if (emptyContacts) {
+        emptyContacts.style.display =
+            "none";
+    }
 
-    contacts.forEach(function (contact) {
+    contactList.innerHTML =
+        contacts.map(function (contact) {
 
-        const div = document.createElement("div");
+            return `
+                <div class="contact-item">
 
-        div.className = "contact-card";
+                    <div class="contact-info">
 
-        div.innerHTML = `
-            <div>
-                <h3>${escapeHTML(contact.name)}</h3>
-                <p>${escapeHTML(contact.relationship)}</p>
-                <p>📞 ${escapeHTML(contact.phone)}</p>
-            </div>
+                        <h3>
+                            ${escapeHTML(contact.name)}
+                        </h3>
 
-            <div class="contact-actions">
-                <a href="tel:${escapeHTML(contact.phone)}"
-                   class="btn">
-                   Call
-                </a>
+                        <p>
+                            ${escapeHTML(
+                                contact.relationship || "Other"
+                            )}
+                        </p>
 
-                <button
-                    class="btn"
-                    onclick="deleteContact(${contact.id})">
-                    Delete
-                </button>
-            </div>
-        `;
+                        <p>
+                            <i class="fas fa-phone"></i>
+                            ${escapeHTML(contact.phone)}
+                        </p>
 
-        contactList.appendChild(div);
-    });
+                    </div>
+
+                    <div class="contact-actions">
+
+                        <a
+                            href="tel:${encodeURIComponent(contact.phone)}"
+                            class="call-btn"
+                        >
+                            <i class="fas fa-phone"></i>
+                            Call
+                        </a>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteContact(${contact.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
 }
 
 
-// Delete contact
+/* Delete Contact */
+
 function deleteContact(id) {
 
     const confirmation =
-        confirm("Delete this trusted contact?");
+        confirm(
+            "Delete this trusted contact?"
+        );
 
-    if (!confirmation) return;
+    if (!confirmation) {
+        return;
+    }
 
     let contacts =
         JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
+            localStorage.getItem(
+                "Women Safety App Contacts"
+            )
         ) || [];
 
     contacts =
         contacts.filter(function (contact) {
+
             return contact.id !== id;
+
         });
 
     localStorage.setItem(
@@ -422,19 +657,43 @@ function deleteContact(id) {
 }
 
 
-// Prevent HTML injection
+/* Prevent HTML Injection */
+
 function escapeHTML(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
@@ -443,34 +702,44 @@ function escapeHTML(value) {
    ========================================= */
 
 let currentLatitude = null;
+
 let currentLongitude = null;
 
 
-// Get current location
+/*
+ * Get Current Location
+ */
+
 function getLocation() {
 
-    const loading =
-        document.getElementById("loading");
+    const status =
+        document.getElementById(
+            "locationStatus"
+        );
 
-    const locationDetails =
-        document.getElementById("locationDetails");
-
+       
     if (!navigator.geolocation) {
 
-        showError(
-            "Geolocation is not supported by your browser."
+        showLocationStatus(
+            "❌ Geolocation is not supported by your browser.",
+            "error"
         );
 
         return;
     }
 
-    if (loading) {
-        loading.style.display = "block";
-    }
+    showLocationStatus(
+        "📍 Getting your current location...",
+        "loading"
+    );
 
-    if (locationDetails) {
-        locationDetails.style.display = "none";
-    }
+     if (status) 
+            {
+                status.textContent = "✅ Location found successfully!";
+                status.className = "location-status success";
+                status.style.display = "block";
+            }
+
 
     navigator.geolocation.getCurrentPosition(
 
@@ -485,108 +754,230 @@ function getLocation() {
             const accuracy =
                 position.coords.accuracy;
 
+            /*
+             * Latitude
+             */
             const latitudeElement =
-                document.getElementById("latitude");
-
-            const longitudeElement =
-                document.getElementById("longitude");
-
-            const accuracyElement =
-                document.getElementById("accuracy");
-
-            const updatedElement =
-                document.getElementById("updated");
+                document.getElementById(
+                    "latitude"
+                );
 
             if (latitudeElement) {
+
                 latitudeElement.textContent =
                     currentLatitude.toFixed(6);
             }
 
+
+            /*
+             * Longitude
+             */
+            const longitudeElement =
+                document.getElementById(
+                    "longitude"
+                );
+
             if (longitudeElement) {
+
                 longitudeElement.textContent =
                     currentLongitude.toFixed(6);
             }
 
+
+            /*
+             * Accuracy
+             */
+            const accuracyElement =
+                document.getElementById(
+                    "accuracy"
+                );
+
             if (accuracyElement) {
+
                 accuracyElement.textContent =
-                    Math.round(accuracy) + " meters";
+                    Math.round(accuracy) +
+                    " meters";
             }
 
-            if (updatedElement) {
-                updatedElement.textContent =
-                    new Date().toLocaleString();
+
+           // Last Updated Time
+const updatedElement = document.getElementById("updatedTime");
+
+if (updatedElement) {
+    const now = new Date();
+
+    updatedElement.textContent = now.toLocaleString("en-IN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+    });
+}
+            /*
+             * Show location found
+             */
+            const locationFound =
+                document.getElementById(
+                    "locationFound"
+                );
+
+            if (locationFound) {
+
+                locationFound.style.display =
+                    "block";
             }
 
-            if (loading) {
-                loading.style.display = "none";
+
+            /*
+             * Enable Google Maps
+             */
+            const mapButton =
+                document.getElementById(
+                    "mapButton"
+                );
+
+            if (mapButton) {
+
+                mapButton.disabled =
+                    false;
             }
 
-            if (locationDetails) {
-                locationDetails.style.display = "block";
+
+            /*
+             * Enable Share Location
+             */
+            const shareButton =
+                document.getElementById(
+                    "shareButton"
+                );
+
+            if (shareButton) {
+
+                shareButton.disabled =
+                    false;
             }
 
-            // Save location
+
+            /*
+             * Save Location
+             */
             localStorage.setItem(
+
                 "Women Safety App Location",
+
                 JSON.stringify({
-                    latitude: currentLatitude,
-                    longitude: currentLongitude,
-                    accuracy: accuracy,
-                    updated: new Date().toLocaleString()
+
+                    latitude:
+                        currentLatitude,
+
+                    longitude:
+                        currentLongitude,
+
+                    accuracy:
+                        accuracy,
+
+                    updated:
+                        now.toISOString()
                 })
+            );
+
+
+            /*
+             * Success message
+             */
+            showLocationStatus(
+                "✅ Location found successfully!",
+                "success"
             );
         },
 
+
         function (error) {
 
-            if (loading) {
-                loading.style.display = "none";
-            }
-
             let message =
-                "Unable to get your location.";
+                "❌ Unable to get your location.";
 
             if (error.code === 1) {
+
                 message =
-                    "Location permission was denied.";
+                    "❌ Location permission was denied. Please allow location access.";
+
+            } else if (error.code === 2) {
+
+                message =
+                    "❌ Location information is unavailable.";
+
+            } else if (error.code === 3) {
+
+                message =
+                    "❌ Location request timed out. Please try again.";
             }
 
-            if (error.code === 2) {
-                message =
-                    "Location information is unavailable.";
-            }
+            showLocationStatus(
+                message,
+                "error"
+            );
+        },
 
-            if (error.code === 3) {
-                message =
-                    "Location request timed out.";
-            }
 
-            showError(message);
+        {
+            enableHighAccuracy: true,
+
+            timeout: 15000,
+
+            maximumAge: 0
         }
     );
 }
 
 
-// Location error
-function showError(message) {
+/*
+ * Location Status
+ */
 
-    const errorElement =
-        document.getElementById("errorMessage");
+function showLocationStatus(
+    message,
+    type
+) {
 
-    if (errorElement) {
+    const status =
+        document.getElementById(
+            "locationStatus"
+        );
 
-        errorElement.textContent = message;
-
-        errorElement.style.display = "block";
-
-    } else {
-
-        alert(message);
+    if (!status) {
+        return;
     }
+
+    status.textContent =
+        message;
+
+    status.className =
+        "location-status " +
+        type;
 }
 
 
-// Open Google Maps
+/*
+ * Error Function
+ */
+
+function showError(message) {
+
+    showLocationStatus(
+        "❌ " + message,
+        "error"
+    );
+}
+
+
+/*
+ * Open Google Maps
+ */
+
 function openMap() {
 
     if (
@@ -607,11 +998,17 @@ function openMap() {
         "," +
         currentLongitude;
 
-    window.open(mapURL, "_blank");
+    window.open(
+        mapURL,
+        "_blank"
+    );
 }
 
 
-// Share location
+/*
+ * Share Location
+ */
+
 async function shareLocation() {
 
     if (
@@ -636,21 +1033,46 @@ async function shareLocation() {
         "My current location:\n" +
         mapURL;
 
+
+    /*
+     * Native Share
+     */
     if (navigator.share) {
 
         try {
 
             await navigator.share({
-                title: "My Women Safety App Location",
-                text: shareText
+
+                title:
+                    "My Women Safety App Location",
+
+                text:
+                    shareText
+
             });
 
         } catch (error) {
 
-            console.log("Share cancelled.");
+            /*
+             * User cancelled share.
+             * No error message required.
+             */
+            console.log(
+                "Share cancelled."
+            );
         }
 
-    } else {
+        return;
+    }
+
+
+    /*
+     * Clipboard
+     */
+    if (
+        navigator.clipboard &&
+        window.isSecureContext
+    ) {
 
         try {
 
@@ -659,7 +1081,7 @@ async function shareLocation() {
             );
 
             alert(
-                "Location link copied to clipboard."
+                "📍 Location link copied to clipboard."
             );
 
         } catch (error) {
@@ -669,6 +1091,188 @@ async function shareLocation() {
                 mapURL
             );
         }
+
+        return;
+    }
+
+
+    /*
+     * Final fallback
+     */
+    prompt(
+        "Copy this location link:",
+        mapURL
+    );
+}
+
+
+/*
+ * Load Saved Location
+ */
+
+function loadSavedLocation() {
+
+    const savedLocation =
+        localStorage.getItem(
+            "Women Safety App Location"
+        );
+
+    if (!savedLocation) {
+        return;
+    }
+
+    try {
+
+        const data =
+            JSON.parse(
+                savedLocation
+            );
+
+        if (
+            data.latitude === undefined ||
+            data.longitude === undefined
+        ) {
+            return;
+        }
+
+        currentLatitude =
+            Number(data.latitude);
+
+        currentLongitude =
+            Number(data.longitude);
+
+
+        /*
+         * Latitude
+         */
+        const latitudeElement =
+            document.getElementById(
+                "latitude"
+            );
+
+        if (latitudeElement) {
+
+            latitudeElement.textContent =
+                currentLatitude.toFixed(6);
+        }
+
+
+        /*
+         * Longitude
+         */
+        const longitudeElement =
+            document.getElementById(
+                "longitude"
+            );
+
+        if (longitudeElement) {
+
+            longitudeElement.textContent =
+                currentLongitude.toFixed(6);
+        }
+
+
+        /*
+         * Accuracy
+         */
+        const accuracyElement =
+            document.getElementById(
+                "accuracy"
+            );
+
+        if (
+            accuracyElement &&
+            data.accuracy !== undefined
+        ) {
+
+            accuracyElement.textContent =
+                Math.round(
+                    Number(data.accuracy)
+                ) +
+                " meters";
+        }
+
+
+        /*
+         * Updated Time
+         */
+        const updatedElement =
+            document.getElementById(
+                "updated"
+            );
+
+        if (
+            updatedElement &&
+            data.updated
+        ) {
+
+            const savedTime =
+                new Date(
+                    data.updated
+                );
+
+            updatedElement.textContent =
+                savedTime.toLocaleTimeString(
+                    [],
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    }
+                );
+        }
+
+
+        /*
+         * Location Found
+         */
+        const locationFound =
+            document.getElementById(
+                "locationFound"
+            );
+
+        if (locationFound) {
+
+            locationFound.style.display =
+                "block";
+        }
+
+
+        /*
+         * Enable Map Button
+         */
+        const mapButton =
+            document.getElementById(
+                "mapButton"
+            );
+
+        if (mapButton) {
+
+            mapButton.disabled =
+                false;
+        }
+
+
+        /*
+         * Enable Share Button
+         */
+        const shareButton =
+            document.getElementById(
+                "shareButton"
+            );
+
+        if (shareButton) {
+
+            shareButton.disabled =
+                false;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Error loading saved location:",
+            error
+        );
     }
 }
 
@@ -677,53 +1281,83 @@ async function shareLocation() {
    PROFILE
    ========================================= */
 
-// Load profile
+
+/*
+ * Load Profile
+ */
+
 function loadProfile() {
 
     const savedUser =
         JSON.parse(
-            localStorage.getItem("Women Safety App User")
+            localStorage.getItem(
+                "Women Safety App User"
+            )
         );
 
-    if (!savedUser) return;
+    if (!savedUser) {
+        return;
+    }
 
     const nameElement =
-        document.getElementById("profileName");
+        document.getElementById(
+            "profileName"
+        );
 
     const emailElement =
-        document.getElementById("profileEmail");
+        document.getElementById(
+            "profileEmail"
+        );
 
     const phoneElement =
-        document.getElementById("profilePhone");
+        document.getElementById(
+            "profilePhone"
+        );
 
     const cityElement =
-        document.getElementById("profileCity");
+        document.getElementById(
+            "profileCity"
+        );
+
 
     if (nameElement) {
+
         nameElement.value =
             savedUser.name || "";
     }
 
+
     if (emailElement) {
+
         emailElement.value =
             savedUser.email || "";
     }
 
+
     if (phoneElement) {
+
         phoneElement.value =
             savedUser.phone || "";
     }
 
+
     if (cityElement) {
+
         cityElement.value =
             savedUser.city || "";
     }
 
-    updateProfileHeader(savedUser);
+
+    updateProfileHeader(
+        savedUser
+    );
 }
 
 
-// Update profile
+/*
+ * Save Profile
+ */
+
 function saveProfile(event) {
 
     if (event) {
@@ -731,28 +1365,49 @@ function saveProfile(event) {
     }
 
     const nameElement =
-        document.getElementById("profileName");
+        document.getElementById(
+            "profileName"
+        );
 
     const emailElement =
-        document.getElementById("profileEmail");
+        document.getElementById(
+            "profileEmail"
+        );
 
     const phoneElement =
-        document.getElementById("profilePhone");
+        document.getElementById(
+            "profilePhone"
+        );
 
     const cityElement =
-        document.getElementById("profileCity");
+        document.getElementById(
+            "profileCity"
+        );
 
-    if (!nameElement || !emailElement) return;
+    if (
+        !nameElement ||
+        !emailElement
+    ) {
+        return;
+    }
 
     const user = {
-        name: nameElement.value.trim(),
-        email: emailElement.value.trim(),
-        phone: phoneElement
-            ? phoneElement.value.trim()
-            : "",
-        city: cityElement
-            ? cityElement.value.trim()
-            : ""
+
+        name:
+            nameElement.value.trim(),
+
+        email:
+            emailElement.value.trim(),
+
+        phone:
+            phoneElement
+                ? phoneElement.value.trim()
+                : "",
+
+        city:
+            cityElement
+                ? cityElement.value.trim()
+                : ""
     };
 
     localStorage.setItem(
@@ -760,13 +1415,20 @@ function saveProfile(event) {
         JSON.stringify(user)
     );
 
-    updateProfileHeader(user);
+    updateProfileHeader(
+        user
+    );
 
-    alert("Profile updated successfully.");
+    alert(
+        "Profile updated successfully."
+    );
 }
 
 
-// Update profile header
+/*
+ * Update Profile Header
+ */
+
 function updateProfileHeader(user) {
 
     const profileHeaderName =
@@ -774,21 +1436,32 @@ function updateProfileHeader(user) {
             "profileHeaderName"
         );
 
-    if (profileHeaderName && user) {
+    if (
+        profileHeaderName &&
+        user
+    ) {
 
         profileHeaderName.textContent =
-            user.name || "Women Safety App User";
+            user.name ||
+            "Women Safety App User";
     }
 }
 
 
-// Logout
+/*
+ * Logout
+ */
+
 function logoutUser() {
 
     const confirmation =
-        confirm("Are you sure you want to logout?");
+        confirm(
+            "Are you sure you want to logout?"
+        );
 
-    if (!confirmation) return;
+    if (!confirmation) {
+        return;
+    }
 
     localStorage.removeItem(
         "Women Safety App LoggedIn"
@@ -807,101 +1480,47 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        // Contacts page
+
+        /*
+         * Contacts Page
+         */
         if (
-            document.getElementById("contactList")
+            document.getElementById(
+                "contactList"
+            )
         ) {
+
             loadContacts();
         }
 
-        // Profile page
+
+        /*
+         * Profile Page
+         */
         if (
-            document.getElementById("profileName")
+            document.getElementById(
+                "profileName"
+            )
         ) {
+
             loadProfile();
+        }
+
+
+        /*
+         * Location Page
+         */
+        if (
+            document.getElementById(
+                "latitude"
+            ) &&
+            document.getElementById(
+                "longitude"
+            )
+        ) {
+
+            loadSavedLocation();
         }
 
     }
 );
-function activateSOS() {
-
-    const contacts =
-        JSON.parse(localStorage.getItem("Women Safety App Contacts")) || [];
-
-    if (contacts.length === 0) {
-        alert("Pehle trusted contacts add karo.");
-        return;
-    }
-
-    if (!navigator.geolocation) {
-        alert("GPS location supported nahi hai.");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        function (position) {
-
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            const locationLink =
-                "https://www.google.com/maps?q=" +
-                latitude + "," + longitude;
-
-            const message =
-                "🚨 SOS ALERT 🚨\n\n" +
-                "Mujhe help chahiye.\n" +
-                "Meri current location:\n" +
-                locationLink;
-
-            contacts.forEach(function (contact, index) {
-
-                let phone =
-                    String(contact.phone).replace(/\D/g, "");
-
-                if (phone.length === 10) {
-                    phone = "91" + phone;
-                }
-
-                const whatsappLink =
-                    "https://wa.me/" +
-                    phone +
-                    "?text=" +
-                    encodeURIComponent(message);
-
-                setTimeout(function () {
-                    window.open(whatsappLink, "_blank");
-                }, index * 1500);
-
-            });
-
-            alert(
-                "SOS location " +
-                contacts.length +
-                " contacts ke liye ready hai."
-            );
-
-        },
-
-        function (error) {
-
-            if (error.code === 1) {
-                alert("Location permission denied.");
-            } else if (error.code === 2) {
-                alert("Location unavailable.");
-            } else if (error.code === 3) {
-                alert("Location request timed out.");
-            } else {
-                alert("Location nahi mil rahi.");
-            }
-
-        },
-
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        }
-    );
-}

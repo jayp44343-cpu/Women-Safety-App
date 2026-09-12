@@ -1869,3 +1869,405 @@ footer p {
     }
 
 }
+/* =====================================================
+    LOCATION PAGE
+===================================================== */
+
+.location-hero {
+    background: linear-gradient(135deg, #f5eaff, #fff0f8);
+    padding: 65px 25px;
+}
+
+.location-hero-content {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.location-hero-content span {
+    color: #7028e4;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.location-hero-content h1 {
+    font-size: 44px;
+    margin: 18px 0 10px;
+    color: #222;
+}
+
+.location-hero-content p {
+    font-size: 18px;
+    color: #777;
+}
+
+
+/* ================= LOCATION MAIN ================= */
+
+.location-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 45px 20px;
+    background: #f8f7fc;
+}
+
+
+/* ================= FIND LOCATION CARD ================= */
+
+.location-main-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 35px rgba(70, 30, 120, 0.08);
+    border: 1px solid #eee8f8;
+}
+
+.location-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.location-icon {
+    width: 65px;
+    height: 65px;
+    min-width: 65px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #eee3ff, #f8e8ff);
+    color: #7028e4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    box-shadow: 0 8px 20px rgba(112, 40, 228, 0.12);
+}
+
+.location-card-heading h2 {
+    margin: 0 0 6px;
+    font-size: 27px;
+    color: #222;
+}
+
+.location-card-heading p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* ================= GET LOCATION BUTTON ================= */
+
+.get-location-btn {
+    width: 100%;
+    border: none;
+    background: linear-gradient(135deg, #7028e4, #e91e9b);
+    color: white;
+    padding: 16px 25px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.get-location-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(112, 40, 228, 0.25);
+}
+
+.get-location-btn:active {
+    transform: scale(0.98);
+}
+
+.get-location-btn i {
+    margin-right: 8px;
+}
+
+
+/* ================= STATUS ================= */
+
+.location-status {
+    margin-top: 18px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: #f5f3fa;
+    color: #666;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.location-status i {
+    color: #7028e4;
+}
+
+
+/* ================= LOCATION DETAILS ================= */
+
+.location-details-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 35px rgba(70, 30, 120, 0.08);
+    border: 1px solid #eee8f8;
+}
+
+.details-title span {
+    color: #7028e4;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.details-title h2 {
+    margin: 7px 0 22px;
+    font-size: 30px;
+    color: #222;
+}
+
+
+/* ================= LOCATION FOUND ================= */
+
+.location-found {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ecfff4;
+    border: 1px solid #c9f1d9;
+    color: #168346;
+    padding: 13px 16px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.location-found i {
+    font-size: 16px;
+}
+
+
+/* ================= GPS GRID ================= */
+
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+
+/* ================= DETAIL BOX ================= */
+
+.location-detail-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    border: 1px solid #eee9f8;
+    background: linear-gradient(135deg, #fbfaff, #fff);
+    border-radius: 18px;
+    transition: 0.3s;
+}
+
+.location-detail-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(80, 40, 130, 0.10);
+    border-color: #d9c8f7;
+}
+
+.detail-icon {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: 14px;
+    background: #efe3ff;
+    color: #7028e4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.location-detail-box span {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.location-detail-box strong {
+    font-size: 17px;
+    color: #222;
+    word-break: break-word;
+}
+
+.location-detail-box small {
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* ================= ACTION BUTTONS ================= */
+
+.location-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 25px;
+}
+
+.map-button,
+.share-button {
+    flex: 1;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 13px;
+}
+
+.map-button {
+    background: #7028e4;
+    color: white;
+}
+
+.share-button {
+    background: #efe4ff;
+    color: #7028e4;
+}
+
+.map-button:hover,
+.share-button:hover {
+    transform: translateY(-2px);
+}
+
+.map-button:disabled,
+.share-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* ================= PRIVACY ================= */
+
+.privacy-card {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: linear-gradient(135deg, #fff9e9, #fff5dc);
+    border-left: 5px solid #f0a800;
+    padding: 22px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(100, 70, 20, 0.05);
+}
+
+.privacy-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 12px;
+    background: #fff0c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #df9900;
+    font-size: 20px;
+}
+
+.privacy-card h3 {
+    margin: 0 0 7px;
+    font-size: 18px;
+    color: #333;
+}
+
+.privacy-card p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 650px) {
+
+    .location-hero {
+        padding: 45px 20px;
+    }
+
+    .location-hero-content h1 {
+        font-size: 32px;
+    }
+
+    .location-hero-content p {
+        font-size: 16px;
+    }
+
+    .location-container {
+        padding: 25px 14px;
+    }
+
+    .location-main-card,
+    .location-details-card {
+        padding: 22px 18px;
+        border-radius: 20px;
+    }
+
+    .location-card-heading {
+        align-items: flex-start;
+        gap: 13px;
+    }
+
+    .location-icon {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        font-size: 22px;
+    }
+
+    .location-card-heading h2 {
+        font-size: 22px;
+    }
+
+    .location-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .location-detail-box {
+        padding: 18px;
+    }
+
+    .location-actions {
+        flex-direction: column;
+    }
+
+    .map-button,
+    .share-button {
+        width: 100%;
+    }
+
+    .privacy-card {
+        padding: 18px;
+    }
+}
+/* LOCATION PAGE LOGO */
+
+.logo .women-text {
+    color: #7028e4 !important;
+}
+
+.logo .safety-text {
+    color: #e91e9b !important;
+}
+
+.logo i {
+    color: #7028e4 !important;
+}
