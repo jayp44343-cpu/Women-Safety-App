@@ -38,7 +38,7 @@ function togglePassword(inputId, iconId) {
    SOS FUNCTION
    ========================================= */
 
-   function activateSOS() {
+function activateSOS() {
 
     const contacts =
         JSON.parse(
@@ -51,7 +51,7 @@ function togglePassword(inputId, iconId) {
         return;
     }
 
-    // Saved location
+    // Get saved GPS location
     let latitude = null;
     let longitude = null;
 
@@ -75,24 +75,19 @@ function togglePassword(inputId, iconId) {
         "🚨 SOS ALERT 🚨\n\n" +
         "I need help. Please contact me immediately.";
 
-    // Add location if available
-    if (
-        latitude !== null &&
-        longitude !== null
-    ) {
+    // Add location
+    if (latitude !== null && longitude !== null) {
 
         const mapLink =
             "https://www.google.com/maps?q=" +
-            latitude +
-            "," +
-            longitude;
+            latitude + "," + longitude;
 
         message +=
             "\n\n📍 My current location:\n" +
             mapLink;
     }
 
-    // Send to ALL trusted contacts
+    // Send/open WhatsApp for ALL trusted contacts
     contacts.forEach(function(contact, index) {
 
         let phone =
@@ -114,8 +109,12 @@ function togglePassword(inputId, iconId) {
 
     });
 
+    alert(
+        "SOS location " +
+        contacts.length +
+        " trusted contacts ke liye ready hai."
+    );
 }
-
 /* =========================================
    DEMO LOGIN
    ========================================= */
