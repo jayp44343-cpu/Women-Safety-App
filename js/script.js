@@ -16,6 +16,7 @@ function togglePassword(inputId, iconId) {
     if (!input) return;
 
     if (input.type === "password") {
+
         input.type = "text";
 
         if (icon) {
@@ -23,6 +24,7 @@ function togglePassword(inputId, iconId) {
         }
 
     } else {
+
         input.type = "password";
 
         if (icon) {
@@ -30,6 +32,7 @@ function togglePassword(inputId, iconId) {
         }
     }
 }
+
 
 /* =========================================
    SOS FUNCTION
@@ -73,6 +76,7 @@ function activateSOS() {
         localStorage.getItem(
             "Women Safety App Location"
         );
+
 
     if (savedLocation) {
 
@@ -132,6 +136,7 @@ function activateSOS() {
         whatsappURL;
 }
 
+
 /* =========================================
    LOGIN
    ========================================= */
@@ -167,12 +172,14 @@ function loginUser(event) {
         return;
     }
 
+
     const savedUser =
         JSON.parse(
             localStorage.getItem(
                 "Women Safety App User"
             )
         );
+
 
     if (
         savedUser &&
@@ -201,7 +208,9 @@ function loginUser(event) {
 }
 
 
-/* Demo Login */
+/* =========================================
+   DEMO LOGIN
+   ========================================= */
 
 function demoLogin() {
 
@@ -219,7 +228,9 @@ function demoLogin() {
 }
 
 
-/* Forgot Password */
+/* =========================================
+   FORGOT PASSWORD
+   ========================================= */
 
 function forgotPassword(event) {
 
@@ -282,6 +293,7 @@ function registerUser(event) {
     const termsElement =
         document.getElementById("terms");
 
+
     if (
         !nameElement ||
         !emailElement ||
@@ -291,6 +303,7 @@ function registerUser(event) {
     ) {
         return;
     }
+
 
     const name =
         nameElement.value.trim();
@@ -307,6 +320,7 @@ function registerUser(event) {
     const confirmPassword =
         confirmPasswordElement.value;
 
+
     if (
         name === "" ||
         email === "" ||
@@ -322,6 +336,7 @@ function registerUser(event) {
         return;
     }
 
+
     if (!email.includes("@")) {
 
         alert(
@@ -331,8 +346,10 @@ function registerUser(event) {
         return;
     }
 
+
     const cleanPhone =
         phone.replace(/\D/g, "");
+
 
     if (cleanPhone.length < 10) {
 
@@ -343,6 +360,7 @@ function registerUser(event) {
         return;
     }
 
+
     if (password.length < 6) {
 
         alert(
@@ -352,6 +370,7 @@ function registerUser(event) {
         return;
     }
 
+
     if (password !== confirmPassword) {
 
         alert(
@@ -360,6 +379,7 @@ function registerUser(event) {
 
         return;
     }
+
 
     if (
         termsElement &&
@@ -373,6 +393,7 @@ function registerUser(event) {
         return;
     }
 
+
     const user = {
 
         name: name,
@@ -384,22 +405,27 @@ function registerUser(event) {
         city: ""
     };
 
+
     localStorage.setItem(
         "Women Safety App User",
         JSON.stringify(user)
     );
+
 
     alert(
         "Account created successfully!\n\n" +
         "You can now login."
     );
 
+
     window.location.href =
         "login.html";
 }
 
 
-/* Terms and Conditions */
+/* =========================================
+   TERMS AND CONDITIONS
+   ========================================= */
 
 function showTerms(event) {
 
@@ -434,9 +460,11 @@ function addContact(event) {
     const relationshipElement =
         document.getElementById("relationship");
 
+
     if (!nameElement || !phoneElement) {
         return;
     }
+
 
     const name =
         nameElement.value.trim();
@@ -448,6 +476,7 @@ function addContact(event) {
         relationshipElement
             ? relationshipElement.value
             : "Other";
+
 
     if (
         name === "" ||
@@ -461,8 +490,10 @@ function addContact(event) {
         return;
     }
 
+
     const cleanPhone =
         phone.replace(/\D/g, "");
+
 
     if (cleanPhone.length < 10) {
 
@@ -473,12 +504,14 @@ function addContact(event) {
         return;
     }
 
+
     const contacts =
         JSON.parse(
             localStorage.getItem(
                 "Women Safety App Contacts"
             )
         ) || [];
+
 
     const newContact = {
 
@@ -491,16 +524,20 @@ function addContact(event) {
         relationship: relationship
     };
 
+
     contacts.push(newContact);
+
 
     localStorage.setItem(
         "Women Safety App Contacts",
         JSON.stringify(contacts)
     );
 
+
     alert(
         "Trusted contact added successfully."
     );
+
 
     nameElement.value = "";
 
@@ -510,11 +547,14 @@ function addContact(event) {
         relationshipElement.value = "";
     }
 
+
     loadContacts();
 }
 
 
-/* Load Contacts */
+/* =========================================
+   LOAD CONTACTS
+   ========================================= */
 
 function loadContacts() {
 
@@ -525,6 +565,7 @@ function loadContacts() {
             )
         ) || [];
 
+
     const contactList =
         document.getElementById("contactList");
 
@@ -534,22 +575,19 @@ function loadContacts() {
     const emptyContacts =
         document.getElementById("emptyContacts");
 
+
     if (!contactList) {
         return;
     }
 
-    /*
-     * Contact count
-     */
+
     if (contactCount) {
 
         contactCount.textContent =
             `${contacts.length} Contact${contacts.length !== 1 ? "s" : ""}`;
     }
 
-    /*
-     * No contacts
-     */
+
     if (contacts.length === 0) {
 
         contactList.innerHTML = "";
@@ -562,13 +600,12 @@ function loadContacts() {
         return;
     }
 
-    /*
-     * Contacts available
-     */
+
     if (emptyContacts) {
         emptyContacts.style.display =
             "none";
     }
+
 
     contactList.innerHTML =
         contacts.map(function (contact) {
@@ -621,7 +658,9 @@ function loadContacts() {
 }
 
 
-/* Delete Contact */
+/* =========================================
+   DELETE CONTACT
+   ========================================= */
 
 function deleteContact(id) {
 
@@ -634,12 +673,14 @@ function deleteContact(id) {
         return;
     }
 
+
     let contacts =
         JSON.parse(
             localStorage.getItem(
                 "Women Safety App Contacts"
             )
         ) || [];
+
 
     contacts =
         contacts.filter(function (contact) {
@@ -648,16 +689,20 @@ function deleteContact(id) {
 
         });
 
+
     localStorage.setItem(
         "Women Safety App Contacts",
         JSON.stringify(contacts)
     );
 
+
     loadContacts();
 }
 
 
-/* Prevent HTML Injection */
+/* =========================================
+   PREVENT HTML INJECTION
+   ========================================= */
 
 function escapeHTML(value) {
 
@@ -667,6 +712,7 @@ function escapeHTML(value) {
     ) {
         return "";
     }
+
 
     return String(value)
 
@@ -706,9 +752,9 @@ let currentLatitude = null;
 let currentLongitude = null;
 
 
-/*
- * Get Current Location
- */
+/* =========================================
+   GET CURRENT LOCATION
+   ========================================= */
 
 function getLocation() {
 
@@ -717,7 +763,59 @@ function getLocation() {
             "locationStatus"
         );
 
-       
+    const latitudeElement =
+        document.getElementById(
+            "latitude"
+        );
+
+    const longitudeElement =
+        document.getElementById(
+            "longitude"
+        );
+
+    const accuracyElement =
+        document.getElementById(
+            "accuracy"
+        );
+
+    const updatedElement =
+        document.getElementById(
+            "updatedTime"
+        );
+
+    const locationFound =
+        document.getElementById(
+            "locationFound"
+        );
+
+    const mapButton =
+        document.getElementById(
+            "mapButton"
+        );
+
+    const shareButton =
+        document.getElementById(
+            "shareButton"
+        );
+
+
+    /* -----------------------------------------
+       Keep buttons disabled while loading
+       ----------------------------------------- */
+
+    if (mapButton) {
+        mapButton.disabled = true;
+    }
+
+    if (shareButton) {
+        shareButton.disabled = true;
+    }
+
+
+    /* -----------------------------------------
+       Check browser support
+       ----------------------------------------- */
+
     if (!navigator.geolocation) {
 
         showLocationStatus(
@@ -728,22 +826,28 @@ function getLocation() {
         return;
     }
 
+
+    /* -----------------------------------------
+       Loading message
+       ----------------------------------------- */
+
     showLocationStatus(
         "📍 Getting your current location...",
         "loading"
     );
 
-     if (status) 
-            {
-                status.textContent = "✅ Location found successfully!";
-                status.className = "location-status success";
-                status.style.display = "block";
-            }
 
+    /* -----------------------------------------
+       Get GPS location
+       ----------------------------------------- */
 
     navigator.geolocation.getCurrentPosition(
 
         function (position) {
+
+            /* -----------------------------------------
+               Save coordinates
+               ----------------------------------------- */
 
             currentLatitude =
                 position.coords.latitude;
@@ -754,13 +858,13 @@ function getLocation() {
             const accuracy =
                 position.coords.accuracy;
 
-            /*
-             * Latitude
-             */
-            const latitudeElement =
-                document.getElementById(
-                    "latitude"
-                );
+            const now =
+                new Date();
+
+
+            /* -----------------------------------------
+               Latitude
+               ----------------------------------------- */
 
             if (latitudeElement) {
 
@@ -769,13 +873,9 @@ function getLocation() {
             }
 
 
-            /*
-             * Longitude
-             */
-            const longitudeElement =
-                document.getElementById(
-                    "longitude"
-                );
+            /* -----------------------------------------
+               Longitude
+               ----------------------------------------- */
 
             if (longitudeElement) {
 
@@ -784,13 +884,9 @@ function getLocation() {
             }
 
 
-            /*
-             * Accuracy
-             */
-            const accuracyElement =
-                document.getElementById(
-                    "accuracy"
-                );
+            /* -----------------------------------------
+               Accuracy
+               ----------------------------------------- */
 
             if (accuracyElement) {
 
@@ -800,29 +896,31 @@ function getLocation() {
             }
 
 
-           // Last Updated Time
-const updatedElement = document.getElementById("updatedTime");
+            /* -----------------------------------------
+               Last Updated
+               ----------------------------------------- */
 
-if (updatedElement) {
-    const now = new Date();
+            if (updatedElement) {
 
-    updatedElement.textContent = now.toLocaleString("en-IN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true
-    });
-}
-            /*
-             * Show location found
-             */
-            const locationFound =
-                document.getElementById(
-                    "locationFound"
-                );
+                updatedElement.textContent =
+                    now.toLocaleString(
+                        "en-IN",
+                        {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true
+                        }
+                    );
+            }
+
+
+            /* -----------------------------------------
+               Location Found
+               ----------------------------------------- */
 
             if (locationFound) {
 
@@ -831,13 +929,10 @@ if (updatedElement) {
             }
 
 
-            /*
-             * Enable Google Maps
-             */
-            const mapButton =
-                document.getElementById(
-                    "mapButton"
-                );
+            /* -----------------------------------------
+               ENABLE GOOGLE MAPS
+               Only after successful GPS
+               ----------------------------------------- */
 
             if (mapButton) {
 
@@ -846,13 +941,10 @@ if (updatedElement) {
             }
 
 
-            /*
-             * Enable Share Location
-             */
-            const shareButton =
-                document.getElementById(
-                    "shareButton"
-                );
+            /* -----------------------------------------
+               ENABLE SHARE LOCATION
+               Only after successful GPS
+               ----------------------------------------- */
 
             if (shareButton) {
 
@@ -861,9 +953,10 @@ if (updatedElement) {
             }
 
 
-            /*
-             * Save Location
-             */
+            /* -----------------------------------------
+               Save Location
+               ----------------------------------------- */
+
             localStorage.setItem(
 
                 "Women Safety App Location",
@@ -885,20 +978,27 @@ if (updatedElement) {
             );
 
 
-            /*
-             * Success message
-             */
+            /* -----------------------------------------
+               Success Message
+               ----------------------------------------- */
+
             showLocationStatus(
                 "✅ Location found successfully!",
                 "success"
             );
+
         },
 
+
+        /* -----------------------------------------
+           GPS ERROR
+           ----------------------------------------- */
 
         function (error) {
 
             let message =
                 "❌ Unable to get your location.";
+
 
             if (error.code === 1) {
 
@@ -916,6 +1016,18 @@ if (updatedElement) {
                     "❌ Location request timed out. Please try again.";
             }
 
+
+            /* Keep buttons disabled */
+
+            if (mapButton) {
+                mapButton.disabled = true;
+            }
+
+            if (shareButton) {
+                shareButton.disabled = true;
+            }
+
+
             showLocationStatus(
                 message,
                 "error"
@@ -923,20 +1035,22 @@ if (updatedElement) {
         },
 
 
+        /* -----------------------------------------
+           GPS OPTIONS
+           ----------------------------------------- */
+
         {
             enableHighAccuracy: true,
-
-            timeout: 15000,
-
-            maximumAge: 0
+            timeout: 10000,
+            maximumAge: 30000
         }
     );
 }
 
 
-/*
- * Location Status
- */
+/* =========================================
+   LOCATION STATUS
+   ========================================= */
 
 function showLocationStatus(
     message,
@@ -952,7 +1066,7 @@ function showLocationStatus(
         return;
     }
 
-    status.textContent =
+    status.innerHTML =
         message;
 
     status.className =
@@ -961,9 +1075,9 @@ function showLocationStatus(
 }
 
 
-/*
- * Error Function
- */
+/* =========================================
+   ERROR FUNCTION
+   ========================================= */
 
 function showError(message) {
 
@@ -974,9 +1088,9 @@ function showError(message) {
 }
 
 
-/*
- * Open Google Maps
- */
+/* =========================================
+   OPEN GOOGLE MAPS
+   ========================================= */
 
 function openMap() {
 
@@ -992,11 +1106,13 @@ function openMap() {
         return;
     }
 
+
     const mapURL =
         "https://www.google.com/maps?q=" +
         currentLatitude +
         "," +
         currentLongitude;
+
 
     window.open(
         mapURL,
@@ -1005,9 +1121,9 @@ function openMap() {
 }
 
 
-/*
- * Share Location
- */
+/* =========================================
+   SHARE LOCATION
+   ========================================= */
 
 async function shareLocation() {
 
@@ -1023,20 +1139,23 @@ async function shareLocation() {
         return;
     }
 
+
     const mapURL =
         "https://www.google.com/maps?q=" +
         currentLatitude +
         "," +
         currentLongitude;
 
+
     const shareText =
         "My current location:\n" +
         mapURL;
 
 
-    /*
-     * Native Share
-     */
+    /* -----------------------------------------
+       Native Share
+       ----------------------------------------- */
+
     if (navigator.share) {
 
         try {
@@ -1048,15 +1167,10 @@ async function shareLocation() {
 
                 text:
                     shareText
-
             });
 
         } catch (error) {
 
-            /*
-             * User cancelled share.
-             * No error message required.
-             */
             console.log(
                 "Share cancelled."
             );
@@ -1066,9 +1180,10 @@ async function shareLocation() {
     }
 
 
-    /*
-     * Clipboard
-     */
+    /* -----------------------------------------
+       Clipboard
+       ----------------------------------------- */
+
     if (
         navigator.clipboard &&
         window.isSecureContext
@@ -1096,9 +1211,10 @@ async function shareLocation() {
     }
 
 
-    /*
-     * Final fallback
-     */
+    /* -----------------------------------------
+       Final fallback
+       ----------------------------------------- */
+
     prompt(
         "Copy this location link:",
         mapURL
@@ -1106,9 +1222,9 @@ async function shareLocation() {
 }
 
 
-/*
- * Load Saved Location
- */
+/* =========================================
+   LOAD SAVED LOCATION
+   ========================================= */
 
 function loadSavedLocation() {
 
@@ -1117,9 +1233,11 @@ function loadSavedLocation() {
             "Women Safety App Location"
         );
 
+
     if (!savedLocation) {
         return;
     }
+
 
     try {
 
@@ -1128,12 +1246,14 @@ function loadSavedLocation() {
                 savedLocation
             );
 
+
         if (
             data.latitude === undefined ||
             data.longitude === undefined
         ) {
             return;
         }
+
 
         currentLatitude =
             Number(data.latitude);
@@ -1142,13 +1262,15 @@ function loadSavedLocation() {
             Number(data.longitude);
 
 
-        /*
-         * Latitude
-         */
+        /* -----------------------------------------
+           Latitude
+           ----------------------------------------- */
+
         const latitudeElement =
             document.getElementById(
                 "latitude"
             );
+
 
         if (latitudeElement) {
 
@@ -1157,13 +1279,15 @@ function loadSavedLocation() {
         }
 
 
-        /*
-         * Longitude
-         */
+        /* -----------------------------------------
+           Longitude
+           ----------------------------------------- */
+
         const longitudeElement =
             document.getElementById(
                 "longitude"
             );
+
 
         if (longitudeElement) {
 
@@ -1172,13 +1296,15 @@ function loadSavedLocation() {
         }
 
 
-        /*
-         * Accuracy
-         */
+        /* -----------------------------------------
+           Accuracy
+           ----------------------------------------- */
+
         const accuracyElement =
             document.getElementById(
                 "accuracy"
             );
+
 
         if (
             accuracyElement &&
@@ -1193,13 +1319,15 @@ function loadSavedLocation() {
         }
 
 
-        /*
-         * Updated Time
-         */
+        /* -----------------------------------------
+           Last Updated
+           ----------------------------------------- */
+
         const updatedElement =
             document.getElementById(
-                "updated"
+                "updatedTime"
             );
+
 
         if (
             updatedElement &&
@@ -1211,25 +1339,32 @@ function loadSavedLocation() {
                     data.updated
                 );
 
+
             updatedElement.textContent =
-                savedTime.toLocaleTimeString(
-                    [],
+                savedTime.toLocaleString(
+                    "en-IN",
                     {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
-                        second: "2-digit"
+                        second: "2-digit",
+                        hour12: true
                     }
                 );
         }
 
 
-        /*
-         * Location Found
-         */
+        /* -----------------------------------------
+           Show saved location information
+           ----------------------------------------- */
+
         const locationFound =
             document.getElementById(
                 "locationFound"
             );
+
 
         if (locationFound) {
 
@@ -1239,33 +1374,34 @@ function loadSavedLocation() {
 
 
         /*
-         * Enable Map Button
-         */
+         IMPORTANT:
+         Do NOT enable Map/Share here.
+
+         They will become enabled only when
+         Get Current Location is clicked and
+         GPS successfully returns a location.
+        */
+
+
         const mapButton =
             document.getElementById(
                 "mapButton"
             );
 
-        if (mapButton) {
-
-            mapButton.disabled =
-                false;
-        }
-
-
-        /*
-         * Enable Share Button
-         */
         const shareButton =
             document.getElementById(
                 "shareButton"
             );
 
-        if (shareButton) {
 
-            shareButton.disabled =
-                false;
+        if (mapButton) {
+            mapButton.disabled = true;
         }
+
+        if (shareButton) {
+            shareButton.disabled = true;
+        }
+
 
     } catch (error) {
 
@@ -1282,9 +1418,7 @@ function loadSavedLocation() {
    ========================================= */
 
 
-/*
- * Load Profile
- */
+/* Load Profile */
 
 function loadProfile() {
 
@@ -1295,9 +1429,11 @@ function loadProfile() {
             )
         );
 
+
     if (!savedUser) {
         return;
     }
+
 
     const nameElement =
         document.getElementById(
@@ -1354,15 +1490,14 @@ function loadProfile() {
 }
 
 
-/*
- * Save Profile
- */
+/* Save Profile */
 
 function saveProfile(event) {
 
     if (event) {
         event.preventDefault();
     }
+
 
     const nameElement =
         document.getElementById(
@@ -1384,12 +1519,14 @@ function saveProfile(event) {
             "profileCity"
         );
 
+
     if (
         !nameElement ||
         !emailElement
     ) {
         return;
     }
+
 
     const user = {
 
@@ -1410,14 +1547,17 @@ function saveProfile(event) {
                 : ""
     };
 
+
     localStorage.setItem(
         "Women Safety App User",
         JSON.stringify(user)
     );
 
+
     updateProfileHeader(
         user
     );
+
 
     alert(
         "Profile updated successfully."
@@ -1425,9 +1565,7 @@ function saveProfile(event) {
 }
 
 
-/*
- * Update Profile Header
- */
+/* Update Profile Header */
 
 function updateProfileHeader(user) {
 
@@ -1435,6 +1573,7 @@ function updateProfileHeader(user) {
         document.getElementById(
             "profileHeaderName"
         );
+
 
     if (
         profileHeaderName &&
@@ -1448,9 +1587,7 @@ function updateProfileHeader(user) {
 }
 
 
-/*
- * Logout
- */
+/* Logout */
 
 function logoutUser() {
 
@@ -1459,13 +1596,16 @@ function logoutUser() {
             "Are you sure you want to logout?"
         );
 
+
     if (!confirmation) {
         return;
     }
 
+
     localStorage.removeItem(
         "Women Safety App LoggedIn"
     );
+
 
     window.location.href =
         "login.html";
@@ -1481,9 +1621,10 @@ document.addEventListener(
     function () {
 
 
-        /*
-         * Contacts Page
-         */
+        /* -----------------------------------------
+           Contacts Page
+           ----------------------------------------- */
+
         if (
             document.getElementById(
                 "contactList"
@@ -1494,9 +1635,10 @@ document.addEventListener(
         }
 
 
-        /*
-         * Profile Page
-         */
+        /* -----------------------------------------
+           Profile Page
+           ----------------------------------------- */
+
         if (
             document.getElementById(
                 "profileName"
@@ -1507,9 +1649,10 @@ document.addEventListener(
         }
 
 
-        /*
-         * Location Page
-         */
+        /* -----------------------------------------
+           Location Page
+           ----------------------------------------- */
+
         if (
             document.getElementById(
                 "latitude"
