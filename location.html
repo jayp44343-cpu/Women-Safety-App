@@ -441,6 +441,18 @@
          JAVASCRIPT
     ====================================================== -->
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const mapButton = document.getElementById("mapButton");
+    const shareButton = document.getElementById("shareButton");
+
+    // Page open hote hi dono disabled
+    if (mapButton) mapButton.disabled = true;
+    if (shareButton) shareButton.disabled = true;
+});
+</script>
+
+
     <script src="js/script.js"></script>
 
 </body>
