@@ -1041,8 +1041,8 @@ function getLocation() {
 
         {
             enableHighAccuracy: true,
-            timeout: 2000,
-            maximumAge: 7000
+            timeout: 5000,
+            maximumAge: 4000
         }
     );
 }
