@@ -37,25 +37,135 @@ function togglePassword(inputId, iconId) {
 /* =========================================
    SOS FUNCTION
    ========================================= */
-function activateSOS() {
+
+   function activateSOS() {
 
     const contacts =
-        JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
-        ) || [];
+        JSON.parse(localStorage.getItem("Women Safety App Contacts")) || [];
 
     if (contacts.length === 0) {
         alert("Please add at least one trusted contact first.");
         return;
     }
 
+    // Maximum 5 contacts
+    const fiveContacts = contacts.slice(0, 5);
+
+    const contactList = document.getElementById("sosContactList");
+    const modal = document.getElementById("sosModal");
+
+    if (!contactList || !modal) {
+        return;
+    }
+
+    contactList.innerHTML = "";
+
+    // Show 5 contacts and select all
+    fiveContacts.forEach(function(contact, index) {
+
+        const row = document.createElement("div");
+        row.className = "sos-contact";
+
+        row.innerHTML = `
+            <input
+                type="checkbox"
+                class="sos-contact-checkbox"
+                value="${index}"
+                checked
+                onchange="updateSelectedContacts()"
+            >
+
+            <div class="sos-contact-info">
+                <span class="sos-contact-name">
+                    ${contact.name}
+                </span>
+
+                <span class="sos-contact-phone">
+                    ${contact.phone}
+                </span>
+            </div>
+        `;
+
+        contactList.appendChild(row);
+    });
+
+    updateSelectedContacts();
+
+    modal.style.display = "flex";
+}
+
+
+function updateSelectedContacts() {
+
+    const contacts =
+        JSON.parse(localStorage.getItem("Women Safety App Contacts")) || [];
+
+    const checkboxes =
+        document.querySelectorAll(".sos-contact-checkbox");
+
+    const selectedNames = [];
+
+    checkboxes.forEach(function(checkbox) {
+
+        if (checkbox.checked) {
+
+            const index = parseInt(checkbox.value);
+
+            if (contacts[index]) {
+                selectedNames.push(contacts[index].name);
+            }
+        }
+    });
+
+    const selectedElement =
+        document.getElementById("selectedContactNames");
+
+    if (selectedNames.length === 0) {
+
+        selectedElement.textContent =
+            "No contacts selected";
+
+    } else {
+
+        selectedElement.textContent =
+            selectedNames.join(", ");
+    }
+}
+
+
+function closeSOSModal() {
+
+    const modal =
+        document.getElementById("sosModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+function sendSOS() {
+
+    const contacts =
+        JSON.parse(localStorage.getItem("Women Safety App Contacts")) || [];
+
+    const checkboxes =
+        document.querySelectorAll(
+            ".sos-contact-checkbox:checked"
+        );
+
+    if (checkboxes.length === 0) {
+        alert("Please select at least one trusted contact.");
+        return;
+    }
+
     if (!navigator.geolocation) {
-        alert("GPS location supported nahi hai.");
+        alert("GPS location is not supported.");
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
-        function (position) {
+        function(position) {
 
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
@@ -66,12 +176,23 @@ function activateSOS() {
 
             const message =
                 "🚨 SOS ALERT 🚨\n\n" +
-                "Mujhe help chahiye.\n" +
-                "Meri current location:\n" +
+                "I need help. Please contact me immediately.\n\n" +
+                "📍 My current location:\n" +
                 locationLink;
 
-            // ALL TRUSTED CONTACTS
-            contacts.forEach(function (contact, index) {
+            const selectedContacts = [];
+
+            checkboxes.forEach(function(checkbox) {
+
+                const index = parseInt(checkbox.value);
+
+                if (contacts[index]) {
+                    selectedContacts.push(contacts[index]);
+                }
+            });
+
+            // Open WhatsApp for selected contacts
+            selectedContacts.forEach(function(contact, index) {
 
                 let phone =
                     String(contact.phone).replace(/\D/g, "");
@@ -80,36 +201,33 @@ function activateSOS() {
                     phone = "91" + phone;
                 }
 
-                const whatsappLink =
+                const whatsappURL =
                     "https://wa.me/" +
                     phone +
                     "?text=" +
                     encodeURIComponent(message);
 
-                setTimeout(function () {
-                    window.open(whatsappLink, "_blank");
-                }, index * 2000);
+                setTimeout(function() {
 
+                    window.open(
+                        whatsappURL,
+                        "_blank"
+                    );
+
+                }, index * 1500);
             });
 
-            alert(
-                "SOS location " +
-                contacts.length +
-                " trusted contacts ke liye ready hai."
-            );
+            closeSOSModal();
+
         },
 
-        function (error) {
+        function() {
 
-            if (error.code === 1) {
-                alert("Location permission denied.");
-            } else if (error.code === 2) {
-                alert("Location unavailable.");
-            } else if (error.code === 3) {
-                alert("Location request timed out.");
-            } else {
-                alert("Location nahi mil rahi.");
-            }
+            alert(
+                "Unable to get your current location. " +
+                "Please allow location permission and try again."
+            );
+
         },
 
         {
@@ -119,6 +237,7 @@ function activateSOS() {
         }
     );
 }
+
 /* =========================================
    DEMO LOGIN
    ========================================= */

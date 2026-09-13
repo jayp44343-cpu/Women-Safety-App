@@ -2271,3 +2271,117 @@ footer p {
 .logo i {
     color: #7028e4 !important;
 }
+/* ===============================
+   SOS CONTACT SELECTOR
+   =============================== */
+
+.sos-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.sos-box {
+    width: 420px;
+    max-width: 92%;
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.sos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, #7c3aed, #ec4899);
+    color: white;
+}
+
+.sos-header h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.close-sos {
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.sos-subtitle {
+    margin: 18px 20px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+}
+
+.sos-contact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.sos-contact input {
+    width: 20px;
+    height: 20px;
+    accent-color: #25d366;
+}
+
+.sos-contact-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sos-contact-name {
+    font-weight: 600;
+    color: #222;
+}
+
+.sos-contact-phone {
+    font-size: 13px;
+    color: #777;
+}
+
+.sos-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #f5f5f5;
+}
+
+#selectedContactNames {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.send-sos-btn {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: #25d366;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37,211,102,0.4);
+}
+
+.send-sos-btn:hover {
+    transform: scale(1.05);
+}

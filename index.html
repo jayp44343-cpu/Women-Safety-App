@@ -407,6 +407,41 @@
 
     </footer>
 
+    <!-- SOS CONTACT SELECTOR -->
+<div id="sosModal" class="sos-modal">
+
+    <div class="sos-box">
+
+        <div class="sos-header">
+            <h2>🚨 SOS Alert</h2>
+            <button onclick="closeSOSModal()" class="close-sos">×</button>
+        </div>
+
+        <p class="sos-subtitle">
+            Select trusted contacts
+        </p>
+
+        <div id="sosContactList"></div>
+
+        <div class="sos-bottom">
+
+            <div id="selectedContactNames">
+                No contacts selected
+            </div>
+
+            <button
+                id="sendSOSButton"
+                class="send-sos-btn"
+                onclick="sendSOS()">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
     <!-- ================= JAVASCRIPT ================= -->
 
     <script src="js/script.js"></script>
