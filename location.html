@@ -1,232 +1,179 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My Location - Women Safety App</title>
 
-    <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
+    <!-- ================= NAVBAR ================= -->
 
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
+    <header class="navbar">
 
-  <header class="navbar">
-
-    <div class="logo">
-        <i class="fas fa-shield-heart"></i>
-        <span>
-            <span class="women-text">Women</span>
-            <span class="safety-text">Safety App</span>
-        </span>
-    </div>
-
-    <nav class="nav-links">
-
-        <a href="index.html">
-            <i class="fas fa-home"></i>
-            Home
-        </a>
-
-        <a href="contacts.html">
-            <i class="fas fa-users"></i>
-            Contacts
-        </a>
-
-        <a href="location.html" class="active">
-            <i class="fas fa-location-dot"></i>
-            Location
-        </a>
-
-        <a href="safety-tips.html">
-            <i class="fas fa-lightbulb"></i>
-            Safety Tips
-        </a>
-
-        <a href="profile.html">
-            <i class="fas fa-user"></i>
-            Profile
-        </a>
-
-    </nav>
-
-    <a href="login.html" class="login-btn">
-        Login
-    </a>
-
-</header> 
-
-
-    <!-- =====================================================
-         LOCATION HERO
-    ====================================================== -->
-
-    <section class="location-hero">
-
-        <div class="location-hero-content">
-
-            <span>
-                <i class="fas fa-location-crosshairs"></i>
-                LOCATION SERVICES
-            </span>
-
-            <h1>
-                My Current Location
-            </h1>
-
-            <p>
-                Find your current location and share it
-                with someone you trust.
-            </p>
-
+        <div class="logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            <span>Women<span> Safety App</span></span>
         </div>
+
+        <nav>
+
+            <a href="index.html">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+
+            <a href="contacts.html">
+                <i class="fa-solid fa-users"></i> Contacts
+            </a>
+
+            <a href="location.html" class="active">
+                <i class="fa-solid fa-location-dot"></i> Location
+            </a>
+
+            <a href="safety-tips.html">
+                <i class="fa-solid fa-lightbulb"></i> Safety Tips
+            </a>
+
+            <a href="profile.html">
+                <i class="fa-solid fa-user"></i> Profile
+            </a>
+
+        </nav>
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+    </header>
+
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <section class="page-header">
+
+        <span>
+            <i class="fa-solid fa-location-crosshairs"></i>
+            LOCATION SERVICES
+        </span>
+
+        <h1>My Current Location</h1>
+
+        <p>
+            Find your current location and share it with
+            someone you trust.
+        </p>
 
     </section>
 
 
-
-    <!-- =====================================================
-         LOCATION MAIN
-    ====================================================== -->
+    <!-- ================= LOCATION CONTENT ================= -->
 
     <main class="location-container">
 
 
-        <!-- =================================================
-             FIND LOCATION CARD
-        ================================================== -->
+        <!-- ================= LOCATION CARD ================= -->
 
-        <div class="location-main-card">
+        <section class="location-card">
 
-            <div class="location-card-heading">
-
-                <div class="location-icon">
-
-                    <i class="fas fa-location-dot"></i>
-
-                </div>
-
-
-                <div>
-
-                    <h2>
-                        Find My Location
-                    </h2>
-
-                    <p>
-                        Click the button below to get
-                        your current GPS location.
-                    </p>
-
-                </div>
-
+            <div class="location-icon-large">
+                <i class="fa-solid fa-location-dot"></i>
             </div>
 
+            <h2>Find My Location</h2>
 
-            <!-- Get Location Button -->
+            <p>
+                Click the button below to get your current
+                GPS location.
+            </p>
 
             <button
                 class="get-location-btn"
                 onclick="getLocation()">
 
-                <i class="fas fa-crosshairs"></i>
+                <i class="fa-solid fa-location-crosshairs"></i>
 
                 Get Current Location
 
             </button>
 
 
-            <!-- Status -->
+            <!-- Loading -->
 
-            <div
-                id="locationStatus"
-                class="location-status">
+            <div id="loading" class="location-loading">
 
-                <i class="fas fa-circle-info"></i>
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                Your location has not been detected yet.
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
-             LOCATION DETAILS CARD
-        ================================================== -->
-
-        <div class="location-details-card">
-
-
-            <!-- Heading -->
-
-            <div class="details-title">
-
-                <span>
-                    GPS INFORMATION
-                </span>
-
-                <h2>
-                    Location Details
-                </h2>
+                Getting your location...
 
             </div>
 
 
+            <!-- Error -->
 
-            <!-- Location Found -->
+            <div id="errorMessage"
+                 class="location-error">
 
-            <div
-                id="locationFound"
-                class="location-found">
+                <i class="fa-solid fa-circle-exclamation"></i>
 
-                <i class="fas fa-circle-check"></i>
+                <span id="errorText"></span>
 
-                <span>
+            </div>
+
+        </section>
+
+
+        <!-- ================= LOCATION RESULT ================= -->
+
+        <section
+            id="locationDetails"
+            class="location-details">
+
+            <div class="location-details-header">
+
+                <div>
+
+                    <span class="small-title">
+                        GPS INFORMATION
+                    </span>
+
+                    <h2>Location Details</h2>
+
+                </div>
+
+                <div class="location-status">
+
+                    <span></span>
+
                     Location Found
-                </span>
+
+                </div>
 
             </div>
 
 
-
-            <!-- =================================================
-                 LOCATION GRID
-            ================================================== -->
-
-            <div class="location-grid">
+            <div class="coordinates-grid">
 
 
                 <!-- Latitude -->
 
-                <div class="location-detail-box">
+                <div class="coordinate-box">
 
-                    <div class="detail-icon">
-
-                        <i class="fas fa-arrows-up-down"></i>
-
+                    <div class="coordinate-icon">
+                        <i class="fa-solid fa-arrows-up-down"></i>
                     </div>
-
 
                     <div>
 
-                        <span>
-                            Latitude
-                        </span>
+                        <span>Latitude</span>
 
                         <strong id="latitude">
                             --
@@ -237,23 +184,17 @@
                 </div>
 
 
-
                 <!-- Longitude -->
 
-                <div class="location-detail-box">
+                <div class="coordinate-box">
 
-                    <div class="detail-icon">
-
-                        <i class="fas fa-arrows-left-right"></i>
-
+                    <div class="coordinate-icon">
+                        <i class="fa-solid fa-arrows-left-right"></i>
                     </div>
-
 
                     <div>
 
-                        <span>
-                            Longitude
-                        </span>
+                        <span>Longitude</span>
 
                         <strong id="longitude">
                             --
@@ -264,54 +205,38 @@
                 </div>
 
 
-
                 <!-- Accuracy -->
 
-                <div class="location-detail-box">
+                <div class="coordinate-box">
 
-                    <div class="detail-icon">
-
-                        <i class="fas fa-crosshairs"></i>
-
+                    <div class="coordinate-icon">
+                        <i class="fa-solid fa-crosshairs"></i>
                     </div>
-
 
                     <div>
 
-                        <span>
-                            Accuracy
-                        </span>
+                        <span>Accuracy</span>
 
                         <strong id="accuracy">
                             --
                         </strong>
-
-                        <small>
-                            meters
-                        </small>
 
                     </div>
 
                 </div>
 
 
+                <!-- Time -->
 
-                <!-- Last Updated -->
+                <div class="coordinate-box">
 
-                <div class="location-detail-box">
-
-                    <div class="detail-icon">
-
-                        <i class="fas fa-clock"></i>
-
+                    <div class="coordinate-icon">
+                        <i class="fa-solid fa-clock"></i>
                     </div>
-
 
                     <div>
 
-                        <span>
-                            Last Updated
-                        </span>
+                        <span>Updated</span>
 
                         <strong id="updatedTime">
                             --
@@ -324,39 +249,30 @@
             </div>
 
 
+            <!-- ================= MAP BUTTON ================= -->
 
-            <!-- =================================================
-                 LOCATION ACTIONS
-            ================================================== -->
-
-            <div class="location-actions">
-
-
-                <!-- Google Maps -->
+            <div class="map-actions">
 
                 <button
                     id="mapButton"
-                    class="map-button"
+                    class="open-map-btn"
                     onclick="openMap()"
                     disabled>
 
-                    <i class="fas fa-map-location-dot"></i>
+                    <i class="fa-solid fa-map-location-dot"></i>
 
                     Open in Google Maps
 
                 </button>
 
 
-
-                <!-- Share -->
-
                 <button
                     id="shareButton"
-                    class="share-button"
+                    class="share-location-btn"
                     onclick="shareLocation()"
                     disabled>
 
-                    <i class="fas fa-share-nodes"></i>
+                    <i class="fa-solid fa-share-nodes"></i>
 
                     Share Location
 
@@ -364,97 +280,71 @@
 
             </div>
 
-        </div>
+        </section>
 
 
+        <!-- ================= SAFETY MESSAGE ================= -->
 
-        <!-- =================================================
-             PRIVACY CARD
-        ================================================== -->
+        <section class="location-safety">
 
-        <div class="privacy-card">
+            <div class="safety-icon">
 
-            <div class="privacy-icon">
-
-                <i class="fas fa-shield-halved"></i>
+                <i class="fa-solid fa-shield-heart"></i>
 
             </div>
 
-
             <div>
 
-                <h3>
-                    Your Location Privacy
-                </h3>
+                <h3>Location Privacy</h3>
 
                 <p>
-                    Your location is only accessed when
-                    you request it. We do not continuously
-                    track your location.
+                    Your location should only be shared with
+                    people you trust. This college project
+                    does not send your location to a server.
                 </p>
 
             </div>
 
-        </div>
+        </section>
 
 
     </main>
 
 
+    <!-- ================= FOOTER ================= -->
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
+    <footer>
 
-    <footer class="footer">
+        <div class="footer-logo">
+            <i class="fa-solid fa-shield-heart"></i>
+            Women Safety App
+        </div>
 
-        <div class="footer-content">
+        <p>
+            Women Safety & Emergency Assistance Application
+        </p>
 
-            <div class="footer-logo">
+        <div class="footer-links">
 
-                <i class="fas fa-shield-heart"></i>
-
-                Women Safety App
-
-            </div>
-
-            <p>
-                Your safety, our priority.
-            </p>
+            <a href="index.html">Home</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="location.html">Location</a>
+            <a href="safety-tips.html">Safety Tips</a>
 
         </div>
 
-
-        <div class="footer-bottom">
-
-            <p>
-                © 2026 Women Safety App. All rights reserved.
-            </p>
-
+        <div class="copyright">
+            © 2026 Women Safety App. College Project.
         </div>
 
     </footer>
 
 
-
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const mapButton = document.getElementById("mapButton");
-    const shareButton = document.getElementById("shareButton");
-
-    // Page open hote hi dono disabled
-    if (mapButton) mapButton.disabled = true;
-    if (shareButton) shareButton.disabled = true;
-});
-</script>
-
+    <!-- ================= JAVASCRIPT ================= -->
 
     <script src="js/script.js"></script>
 
 </body>
 
 </html>
+```
