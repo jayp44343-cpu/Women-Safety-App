@@ -57,12 +57,6 @@ function activateSOS() {
         return;
     }
 
-    const confirmation = confirm(
-        "Are you sure you want to activate the SOS alert?"
-    );
-
-    if (!confirmation) return;
-
     navigator.geolocation.getCurrentPosition(
 
         function (position) {
@@ -117,14 +111,6 @@ function activateSOS() {
                     window.open(whatsappLink, "_blank");
                 }, index * 1500);
             });
-
-            alert(
-                "🚨 SOS location is ready.\n\n" +
-                "Trusted contacts: " +
-                contacts.length +
-                "\n\n" +
-                "WhatsApp will open the contact chats."
-            );
         },
 
         function (error) {
