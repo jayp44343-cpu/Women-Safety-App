@@ -1070,3 +1070,60 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 });
+
+
+function forgotPassword(event) {
+    if (event) event.preventDefault();
+
+    const emailInput = document.getElementById("email");
+    const email = emailInput ? emailInput.value.trim().toLowerCase() : "";
+
+    if (!email) {
+        alert("Please enter your registered email first.");
+        if (emailInput) emailInput.focus();
+        return;
+    }
+
+    let user = null;
+
+    try {
+        user = JSON.parse(
+            localStorage.getItem("Women Safety App User") || "null"
+        );
+    } catch (error) {
+        user = null;
+    }
+
+    if (!user || !user.email ||
+        user.email.toLowerCase() !== email) {
+        alert("This email is not registered on this browser.");
+        return;
+    }
+
+    const newPassword = prompt(
+        "Enter your new password (minimum 6 characters):"
+    );
+
+    if (newPassword === null) return;
+
+    if (newPassword.length < 6) {
+        alert("Password must contain at least 6 characters.");
+        return;
+    }
+
+    const confirmPassword = prompt("Confirm your new password:");
+
+    if (confirmPassword !== newPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    user.password = newPassword;
+
+    localStorage.setItem(
+        "Women Safety App User",
+        JSON.stringify(user)
+    );
+
+    alert("Password updated successfully! You can now log in.");
+}
