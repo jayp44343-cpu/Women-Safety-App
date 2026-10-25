@@ -6,6 +6,21 @@
 /* =========================================
    COMMON FUNCTIONS
    ========================================= */
+// Safe JSON/localStorage helpers.
+function readJSON(key, fallback) {
+    try {
+        const value = localStorage.getItem(key);
+        return value === null ? fallback : JSON.parse(value);
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function readContactsSafely() {
+    const value = readJSON("Women Safety App Contacts", []);
+    return Array.isArray(value) ? value.filter(Boolean) : [];
+}
+
 
 // Password show/hide
 function togglePassword(inputId, iconId) {
@@ -30,10 +45,7 @@ function togglePassword(inputId, iconId) {
 
 function activateSOS() {
 
-    const contacts =
-        JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
-        ) || [];
+    const contacts = readContactsSafely();
 
     if (contacts.length === 0) {
         alert("Please add at least one trusted contact first.");
@@ -160,58 +172,54 @@ function activateSOS() {
    ========================================= */
 
 function loginUser(event) {
+    event.preventDefault();
 
-    if (event) {
-        event.preventDefault();
-    }
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
 
-    const emailElement =
-        document.getElementById("email");
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
-    const passwordElement =
-        document.getElementById("password");
+    let user = null;
 
-    if (!emailElement || !passwordElement) {
-        return;
-    }
-
-    const email =
-        emailElement.value.trim();
-
-    const password =
-        passwordElement.value.trim();
-
-    if (email === "" || password === "") {
-        alert("Please enter email and password.");
-        return;
-    }
-
-    const savedUser =
-        JSON.parse(
+    try {
+        user = JSON.parse(
             localStorage.getItem("Women Safety App User")
         );
-
-    if (savedUser && savedUser.email === email) {
-
-        localStorage.setItem(
-            "Women Safety App LoggedIn",
-            "true"
-        );
-
-        alert(
-            "Login successful! Welcome to Women Safety App."
-        );
-
-        window.location.href = "profile.html";
-
-    } else {
-
-        alert(
-            "User not found.\n\n" +
-            "Please signup first or use Demo Login."
-        );
+    } catch (error) {
+        user = null;
     }
+
+    if (
+        !user ||
+        !user.email ||
+        user.email.toLowerCase() !== email.toLowerCase() ||
+        user.password !== password
+    ) {
+        alert("Incorrect email or password.");
+        return;
+    }
+
+    // Email ko yaad rakho
+    localStorage.setItem("savedLoginEmail", email);
+
+    // Login successful
+    localStorage.setItem("Women Safety App LoggedIn", "true");
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+    // Login ke baad Home Page
+    window.location.href = "index.html";
 }
+
+// Login page par saved email automatically fill karo
+document.addEventListener("DOMContentLoaded", function () {
+    const emailInput = document.getElementById("email");
+
+    if (emailInput) {
+        emailInput.value =
+            localStorage.getItem("savedLoginEmail") || "";
+    }
+});
 
 
 /* =========================================
@@ -268,107 +276,43 @@ function forgotPassword(event) {
    ========================================= */
 
 function registerUser(event) {
+    if (event) event.preventDefault();
+    const nameElement = document.getElementById("name");
+    const emailElement = document.getElementById("email");
+    const phoneElement = document.getElementById("phone");
+    const passwordElement = document.getElementById("password");
+    const confirmPasswordElement = document.getElementById("confirmPassword");
+    const termsElement = document.getElementById("terms");
+    if (!nameElement || !emailElement || !phoneElement || !passwordElement || !confirmPasswordElement) return;
 
-    if (event) {
-        event.preventDefault();
+    const name = nameElement.value.trim();
+    const email = emailElement.value.trim().toLowerCase();
+    const phone = phoneElement.value.trim().replace(/\D/g, "");
+    const password = passwordElement.value;
+    const confirmPassword = confirmPasswordElement.value;
+
+    if (!name || !email || !phone || !password || !confirmPassword) {
+        alert("Please fill all required fields."); return;
     }
-
-    const nameElement =
-        document.getElementById("name");
-
-    const emailElement =
-        document.getElementById("email");
-
-    const phoneElement =
-        document.getElementById("phone");
-
-    const passwordElement =
-        document.getElementById("password");
-
-    const confirmPasswordElement =
-        document.getElementById("confirmPassword");
-
-    const termsElement =
-        document.getElementById("terms");
-
-    if (
-        !nameElement ||
-        !emailElement ||
-        !phoneElement ||
-        !passwordElement ||
-        !confirmPasswordElement
-    ) {
-        return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert("Please enter a valid email address."); return;
     }
-
-    const name =
-        nameElement.value.trim();
-
-    const email =
-        emailElement.value.trim();
-
-    const phone =
-        phoneElement.value.trim();
-
-    const password =
-        passwordElement.value;
-
-    const confirmPassword =
-        confirmPasswordElement.value;
-
-    if (
-        name === "" ||
-        email === "" ||
-        phone === "" ||
-        password === "" ||
-        confirmPassword === ""
-    ) {
-        alert("Please fill all required fields.");
-        return;
+    if (!/^\d{10}$/.test(phone)) {
+        alert("Please enter a valid 10-digit phone number."); return;
     }
-
-    if (!email.includes("@")) {
-        alert("Please enter a valid email address.");
-        return;
-    }
-
-    if (phone.length < 10) {
-        alert("Please enter a valid phone number.");
-        return;
-    }
-
     if (password.length < 6) {
-        alert("Password must contain at least 6 characters.");
-        return;
+        alert("Password must contain at least 6 characters."); return;
     }
-
     if (password !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
+        alert("Passwords do not match."); return;
     }
-
     if (termsElement && !termsElement.checked) {
-        alert("Please accept the Terms & Conditions.");
-        return;
+        alert("Please accept the Terms & Conditions."); return;
     }
 
-    const user = {
-        name: name,
-        email: email,
-        phone: phone,
-        city: ""
-    };
-
-    localStorage.setItem(
-        "Women Safety App User",
-        JSON.stringify(user)
-    );
-
-    alert(
-        "Account created successfully!\n\n" +
-        "You can now login."
-    );
-
+    const user = { name, email, phone, city: "", password };
+    localStorage.setItem("Women Safety App User", JSON.stringify(user));
+    alert("Account created successfully!\n\nYou can now login.");
     window.location.href = "login.html";
 }
 
@@ -396,82 +340,35 @@ function showTerms(event) {
    ========================================= */
 
 function addContact(event) {
+    if (event) event.preventDefault();
+    const nameElement = document.getElementById("contactName");
+    const phoneElement = document.getElementById("contactPhone");
+    const relationshipElement = document.getElementById("relationship");
+    if (!nameElement || !phoneElement) return;
 
-    if (event) {
-        event.preventDefault();
+    const name = nameElement.value.trim();
+    const phone = phoneElement.value.trim().replace(/\D/g, "");
+    const relationship = relationshipElement ? relationshipElement.value.trim() : "Other";
+    if (!name || !phone) {
+        alert("Please enter contact name and phone number."); return;
+    }
+    if (!/^\d{10,15}$/.test(phone)) {
+        alert("Please enter a valid phone number (10 to 15 digits)."); return;
     }
 
-    const nameElement =
-        document.getElementById("contactName");
-
-    const phoneElement =
-        document.getElementById("contactPhone");
-
-    const relationshipElement =
-        document.getElementById("relationship");
-
-    if (!nameElement || !phoneElement) {
+    const contacts = readContactsSafely();
+    if (contacts.length >= 1) {
+        alert("You can save only 1 emergency contact. Delete the existing contact first.");
         return;
     }
 
-    const name =
-        nameElement.value.trim();
-
-    const phone =
-        phoneElement.value.trim();
-
-    const relationship =
-        relationshipElement
-            ? relationshipElement.value
-            : "Other";
-
-    if (name === "" || phone === "") {
-        alert(
-            "Please enter contact name and phone number."
-        );
-        return;
-    }
-
-    if (phone.length < 10) {
-        alert("Please enter a valid phone number.");
-        return;
-    }
-
-    const contacts =
-        JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
-        ) || [];
-
-    // Maximum 5 trusted contacts
-    if (contacts.length >= 5) {
-        alert(
-            "You can save maximum 5 trusted contacts."
-        );
-        return;
-    }
-
-    const newContact = {
-        id: Date.now(),
-        name: name,
-        phone: phone,
-        relationship: relationship
-    };
-
-    contacts.push(newContact);
-
-    localStorage.setItem(
-        "Women Safety App Contacts",
-        JSON.stringify(contacts)
-    );
-
-    alert(
-        "Trusted contact added successfully."
-    );
-
+    const newContact = { id: Date.now(), name, phone, relationship: relationship || "Other" };
+    localStorage.setItem("Women Safety App Contacts", JSON.stringify([newContact]));
     nameElement.value = "";
     phoneElement.value = "";
-
+    if (relationshipElement) relationshipElement.value = "";
     loadContacts();
+    alert("Emergency contact saved successfully.");
 }
 
 
@@ -480,61 +377,58 @@ function addContact(event) {
    ========================================= */
 
 function loadContacts() {
-
-    const contactList =
-        document.getElementById("contactList");
-
+    const contactList = document.getElementById("contactList");
     if (!contactList) return;
 
-    const contacts =
-        JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
-        ) || [];
+    // Keep one saved contact maximum; use the same key for saving and reading.
+    const contacts = readContactsSafely().slice(0, 1);
+    localStorage.setItem("Women Safety App Contacts", JSON.stringify(contacts));
 
-    if (contacts.length === 0) {
+    const countText = `${contacts.length} Contact${contacts.length === 1 ? "" : "s"}`;
+    ["contactCount", "contactsCount", "contact-count"].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = countText;
+    });
+    // Also update a count badge even if its HTML does not yet have an ID.
+    document.querySelectorAll("*").forEach(function(el) {
+        if (el.children.length === 0 && /^\d+ Contacts?$/.test((el.textContent || "").trim())) {
+            el.textContent = countText;
+        }
+    });
 
-        contactList.innerHTML =
-            "<p>No trusted contacts added yet.</p>";
+    const emptyById = document.getElementById("emptyContacts");
+    if (emptyById) emptyById.style.display = contacts.length ? "none" : "block";
+    // Support the existing page markup if its empty-state block has no ID.
+    document.querySelectorAll("h1,h2,h3,h4,p,div,section").forEach(function(el) {
+        if (el.children.length === 0 && /no emergency contacts/i.test((el.textContent || "").trim())) {
+            const emptyBlock = el.closest(".empty-state, .empty-contacts, .empty-contacts-state") || el.parentElement;
+            if (emptyBlock) emptyBlock.style.display = contacts.length ? "none" : "";
+        }
+    });
 
+    if (!contacts.length) {
+        contactList.innerHTML = "";
         return;
     }
 
     contactList.innerHTML = "";
-
-    contacts.forEach(function (contact) {
-
-        const div =
-            document.createElement("div");
-
-        div.className = "contact-card";
-
-        div.innerHTML = `
+    contacts.forEach(function(contact) {
+        const card = document.createElement("div");
+        card.className = "contact-card";
+        const name = escapeHTML(contact.name || "");
+        const relationship = escapeHTML(contact.relationship || "Other");
+        const phone = escapeHTML(contact.phone || "");
+        card.innerHTML = `
             <div>
-                <h3>${escapeHTML(contact.name)}</h3>
-                <p>${escapeHTML(contact.relationship)}</p>
-                <p>📞 ${escapeHTML(contact.phone)}</p>
+                <h3>${name}</h3>
+                <p>${relationship}</p>
+                <p>📞 ${phone}</p>
             </div>
-
             <div class="contact-actions">
-
-                <a
-                    href="tel:${escapeHTML(contact.phone)}"
-                    class="btn"
-                >
-                    Call
-                </a>
-
-                <button
-                    class="btn"
-                    onclick="deleteContact(${contact.id})"
-                >
-                    Delete
-                </button>
-
-            </div>
-        `;
-
-        contactList.appendChild(div);
+                <a href="tel:${phone}" class="btn">Call</a>
+                <button type="button" class="btn" onclick="deleteContact(${Number(contact.id)})">Delete</button>
+            </div>`;
+        contactList.appendChild(card);
     });
 }
 
@@ -544,27 +438,11 @@ function loadContacts() {
    ========================================= */
 
 function deleteContact(id) {
-
-    const confirmation =
-        confirm("Delete this trusted contact?");
-
-    if (!confirmation) return;
-
-    let contacts =
-        JSON.parse(
-            localStorage.getItem("Women Safety App Contacts")
-        ) || [];
-
-    contacts =
-        contacts.filter(function (contact) {
-            return contact.id !== id;
-        });
-
-    localStorage.setItem(
-        "Women Safety App Contacts",
-        JSON.stringify(contacts)
-    );
-
+    if (!confirm("Delete this emergency contact?")) return;
+    const contacts = readContactsSafely().filter(function(contact) {
+        return String(contact.id) !== String(id);
+    });
+    localStorage.setItem("Women Safety App Contacts", JSON.stringify(contacts));
     loadContacts();
 }
 
@@ -825,12 +703,7 @@ function getLocation() {
 
 function loadSavedLocation() {
 
-    const savedLocation =
-        JSON.parse(
-            localStorage.getItem(
-                "Women Safety App Location"
-            )
-        );
+    const savedLocation = readJSON("Women Safety App Location", null);
 
     if (!savedLocation) {
         return;
@@ -1012,63 +885,18 @@ async function shareLocation() {
 
 // Load profile
 function loadProfile() {
-
-    const savedUser =
-        JSON.parse(
-            localStorage.getItem(
-                "Women Safety App User"
-            )
-        );
-
-    if (!savedUser) return;
-
-
-    const nameElement =
-        document.getElementById(
-            "profileName"
-        );
-
-    const emailElement =
-        document.getElementById(
-            "profileEmail"
-        );
-
-    const phoneElement =
-        document.getElementById(
-            "profilePhone"
-        );
-
-    const cityElement =
-        document.getElementById(
-            "profileCity"
-        );
-
-
-    if (nameElement) {
-
-        nameElement.value =
-            savedUser.name || "";
-    }
-
-    if (emailElement) {
-
-        emailElement.value =
-            savedUser.email || "";
-    }
-
-    if (phoneElement) {
-
-        phoneElement.value =
-            savedUser.phone || "";
-    }
-
-    if (cityElement) {
-
-        cityElement.value =
-            savedUser.city || "";
-    }
-
-    updateProfileHeader(savedUser);
+    const user = readJSON("Women Safety App User", null) || readJSON("loggedInUser", null);
+    if (!user) return;
+    // Form inputs use name/email/phone/city; profileName/profileEmail are display labels.
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const cityInput = document.getElementById("city");
+    if (nameInput) nameInput.value = user.name || "";
+    if (emailInput) emailInput.value = user.email || "";
+    if (phoneInput) phoneInput.value = user.phone || "";
+    if (cityInput) cityInput.value = user.city || "";
+    updateProfileHeader(user);
 }
 
 
@@ -1077,67 +905,31 @@ function loadProfile() {
    ========================================= */
 
 function saveProfile(event) {
-
-    if (event) {
-        event.preventDefault();
-    }
-
-    const nameElement =
-        document.getElementById(
-            "profileName"
-        );
-
-    const emailElement =
-        document.getElementById(
-            "profileEmail"
-        );
-
-    const phoneElement =
-        document.getElementById(
-            "profilePhone"
-        );
-
-    const cityElement =
-        document.getElementById(
-            "profileCity"
-        );
-
-
-    if (!nameElement || !emailElement) {
+    if (event) event.preventDefault();
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const cityInput = document.getElementById("city");
+    if (!nameInput || !emailInput) {
+        alert("Profile form fields were not found. Check IDs: name, email, phone, city.");
         return;
     }
-
-
-    const user = {
-
-        name:
-            nameElement.value.trim(),
-
-        email:
-            emailElement.value.trim(),
-
-        phone:
-            phoneElement
-                ? phoneElement.value.trim()
-                : "",
-
-        city:
-            cityElement
-                ? cityElement.value.trim()
-                : ""
-    };
-
-
-    localStorage.setItem(
-        "Women Safety App User",
-        JSON.stringify(user)
-    );
-
+    const previousUser = readJSON("Women Safety App User", {}) || {};
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const phone = phoneInput ? phoneInput.value.trim().replace(/\D/g, "") : "";
+    const city = cityInput ? cityInput.value.trim() : "";
+    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert("Please enter a name and valid email address."); return;
+    }
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+        alert("Please enter a valid phone number."); return;
+    }
+    const user = { ...previousUser, name, email, phone, city };
+    localStorage.setItem("Women Safety App User", JSON.stringify(user));
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
     updateProfileHeader(user);
-
-    alert(
-        "Profile updated successfully."
-    );
+    alert("Profile updated successfully.");
 }
 
 
@@ -1146,21 +938,15 @@ function saveProfile(event) {
    ========================================= */
 
 function updateProfileHeader(user) {
-
-    const profileHeaderName =
-        document.getElementById(
-            "profileHeaderName"
-        );
-
-    if (
-        profileHeaderName &&
-        user
-    ) {
-
-        profileHeaderName.textContent =
-            user.name ||
-            "Women Safety App User";
-    }
+    user = user || readJSON("Women Safety App User", {}) || {};
+    const name = String(user.name || "User").trim();
+    const email = String(user.email || "");
+    const nameElement = document.getElementById("profileName");
+    const emailElement = document.getElementById("profileEmail");
+    const avatarElement = document.getElementById("profileAvatar");
+    if (nameElement) nameElement.textContent = name;
+    if (emailElement) emailElement.textContent = email;
+    if (avatarElement) avatarElement.textContent = name.charAt(0).toUpperCase() || "U";
 }
 
 
@@ -1169,54 +955,19 @@ function updateProfileHeader(user) {
    ========================================= */
 
 function initializeLocationAccess() {
-
-    const locationAccess =
-        document.getElementById(
-            "locationAccess"
-        );
-
-    if (!locationAccess) {
-        return;
+    const setting = document.getElementById("locationSetting") || document.getElementById("locationAccess");
+    if (!setting) return;
+    const key = "locationAccess";
+    const saved = localStorage.getItem(key);
+    if (saved === null) {
+        setting.checked = true;
+        localStorage.setItem(key, "true");
+    } else {
+        setting.checked = saved === "true";
     }
-
-    const savedSetting =
-        localStorage.getItem(
-            "locationAccess"
-        );
-
-
-    // Default = ON
-    if (savedSetting === null) {
-
-        locationAccess.checked = true;
-
-        localStorage.setItem(
-            "locationAccess",
-            "true"
-        );
-
-    }
-
-    else {
-
-        locationAccess.checked =
-            savedSetting === "true";
-    }
-
-
-    // Save changes
-    locationAccess.addEventListener(
-        "change",
-        function () {
-
-            localStorage.setItem(
-                "locationAccess",
-                locationAccess.checked
-                    ? "true"
-                    : "false"
-            );
-        }
-    );
+    setting.addEventListener("change", function() {
+        localStorage.setItem(key, setting.checked ? "true" : "false");
+    });
 }
 
 
@@ -1225,20 +976,10 @@ function initializeLocationAccess() {
    ========================================= */
 
 function logoutUser() {
-
-    const confirmation =
-        confirm(
-            "Are you sure you want to logout?"
-        );
-
-    if (!confirmation) return;
-
-    localStorage.removeItem(
-        "Women Safety App LoggedIn"
-    );
-
-    window.location.href =
-        "login.html";
+    if (!confirm("Are you sure you want to logout?")) return;
+    localStorage.removeItem("Women Safety App LoggedIn");
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
 }
 
 
@@ -1322,3 +1063,24 @@ document.addEventListener(
         initializeLocationAccess();
     }
 );
+
+document.addEventListener("DOMContentLoaded", function () {
+    const authButton = document.getElementById("authButton");
+
+    if (!authButton) return;
+
+    const isLoggedIn =
+        localStorage.getItem("Women Safety App LoggedIn") === "true";
+
+    if (isLoggedIn) {
+        authButton.innerHTML = `
+            <button class="login-btn" onclick="logoutUser()">
+                Logout
+            </button>
+        `;
+    } else {
+        authButton.innerHTML = `
+            <a href="login.html" class="login-btn">Login</a>
+        `;
+    }
+});

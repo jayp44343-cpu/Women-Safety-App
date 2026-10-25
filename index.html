@@ -13,6 +13,12 @@
     <!-- Icons -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script>
+    if (localStorage.getItem("Women Safety App LoggedIn") !== "true") {
+        window.location.replace("login.html");
+    }
+</script>
 </head>
 
 <body>
@@ -48,10 +54,11 @@
             </a>
         </nav>
 
-        <a href="login.html" class="login-btn">
-            Login
-        </a>
-
+        <div id="authButton">
+            <a href="login.html" class="login-btn">
+                Login
+            </a>
+        </div>
     </header>
 
 
@@ -413,4 +420,3 @@
 
 </body>
 </html>
-
