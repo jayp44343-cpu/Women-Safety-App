@@ -1129,28 +1129,33 @@ function forgotPassword(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const isLoggedIn =
-        localStorage.getItem("Women Safety App LoggedIn") === "true";
+    const isProfilePage =
+        window.location.pathname.toLowerCase().endsWith("profile.html");
 
     document.querySelectorAll("nav a, header a").forEach(function (link) {
         const text = link.textContent.trim().toLowerCase();
 
         if (text === "login" || text === "logout") {
-            if (isLoggedIn) {
-                link.textContent = "Logout";
-                link.href = "#";
-                link.onclick = function (event) {
-                    event.preventDefault();
-
-                    localStorage.removeItem("Women Safety App LoggedIn");
-                    localStorage.removeItem("loggedInUser");
-
-                    window.location.href = "login.html";
-                };
+            if (!isProfilePage) {
+                link.style.display = "none";
             } else {
-                link.textContent = "Login";
-                link.href = "login.html";
-                link.onclick = null;
+                const isLoggedIn =
+                    localStorage.getItem("Women Safety App LoggedIn") === "true";
+
+                if (isLoggedIn) {
+                    link.textContent = "Logout";
+                    link.style.display = "";
+                    link.href = "#";
+
+                    link.onclick = function (event) {
+                        event.preventDefault();
+                        localStorage.removeItem("Women Safety App LoggedIn");
+                        localStorage.removeItem("loggedInUser");
+                        window.location.href = "login.html";
+                    };
+                } else {
+                    link.style.display = "none";
+                }
             }
         }
     });
