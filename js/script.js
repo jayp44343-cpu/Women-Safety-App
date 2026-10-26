@@ -1106,31 +1106,12 @@ function forgotPassword(event) {
     alert("Password updated successfully! You can now log in.");
 }
 
-// Login/Logout button control
 document.addEventListener("DOMContentLoaded", function () {
-    const currentPage = window.location.pathname
-        .split("/")
-        .pop()
-        .toLowerCase();
-
-    const isProfilePage = currentPage === "profile.html";
-    const isLoggedIn =
-        localStorage.getItem("Women Safety App LoggedIn") === "true";
-
     document.querySelectorAll("a, button").forEach(function (element) {
         const text = element.textContent.trim().toLowerCase();
 
-        if (text === "login") {
-            element.style.display = "none";
-        }
-
-        if (text === "logout") {
-            if (isProfilePage && isLoggedIn) {
-                element.style.display = "";
-                element.textContent = "Logout";
-            } else {
-                element.style.display = "none";
-            }
+        if (text === "login" || text === "logout") {
+            element.style.setProperty("display", "none", "important");
         }
     });
 });

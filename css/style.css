@@ -70,7 +70,8 @@ input {
 
 .navbar nav {
     display: flex;
-    gap: 28px;
+    gap: 21px;
+    margin-left: auto;
 }
 
 .navbar nav a {
