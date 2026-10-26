@@ -107,9 +107,9 @@ function activateSOS() {
                     "?text=" +
                     encodeURIComponent(message);
 
-                setTimeout(function () {
+                
                     window.open(whatsappLink, "_blank");
-                }, index * 1500);
+                
             });
         },
 

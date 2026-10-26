@@ -70,7 +70,7 @@ input {
 
 .navbar nav {
     display: flex;
-    gap: 21px;
+    gap: 28px;
     margin-left: auto;
 }
 
@@ -2651,5 +2651,29 @@ footer p {
 
 .dashboard-nav-btn:hover {
     background: #4c1d95;
+    transform: translateY(-2px);
+}
+
+
+/* Red Active SOS Button */
+.sos-btn {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    border: 2px solid #991b1b !important;
+    border-radius: 12px;
+    padding: 15px 28px;
+    font-size: 19px;
+    font-weight: bold;
+    box-shadow: 0 5px 0 #991b1b;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sos-btn i {
+    color: #ffffff !important;
+}
+
+.sos-btn:hover {
+    background: #991b1b !important;
     transform: translateY(-2px);
 }
