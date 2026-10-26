@@ -1106,36 +1106,31 @@ function forgotPassword(event) {
     alert("Password updated successfully! You can now log in.");
 }
 
-
+// Login/Logout button control
 document.addEventListener("DOMContentLoaded", function () {
-    const isProfilePage =
-        window.location.pathname.toLowerCase().endsWith("/profile.html");
+    const currentPage = window.location.pathname
+        .split("/")
+        .pop()
+        .toLowerCase();
 
-    const authButton = document.getElementById("authButton");
+    const isProfilePage = currentPage === "profile.html";
+    const isLoggedIn =
+        localStorage.getItem("Women Safety App LoggedIn") === "true";
 
-    if (authButton) {
-        if (!isProfilePage) {
-            authButton.innerHTML = "";
-        } else {
-            const isLoggedIn =
-                localStorage.getItem("Women Safety App LoggedIn") === "true";
+    document.querySelectorAll("a, button").forEach(function (element) {
+        const text = element.textContent.trim().toLowerCase();
 
-            if (isLoggedIn) {
-                authButton.innerHTML =
-                    '<button type="button" class="login-btn" onclick="logoutUser()">Logout</button>';
+        if (text === "login") {
+            element.style.display = "none";
+        }
+
+        if (text === "logout") {
+            if (isProfilePage && isLoggedIn) {
+                element.style.display = "";
+                element.textContent = "Logout";
             } else {
-                authButton.innerHTML = "";
+                element.style.display = "none";
             }
         }
-    }
-
-    if (!isProfilePage) {
-        document.querySelectorAll("nav a, header a").forEach(function (link) {
-            const text = link.textContent.trim().toLowerCase();
-
-            if (text === "login" || text === "logout") {
-                link.style.display = "none";
-            }
-        });
-    }
+    });
 });
