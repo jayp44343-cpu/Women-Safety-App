@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Emergency Dashboard | Women Safety App</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <i class="fa-solid fa-shield-heart"></i>
+        <span>Women<span> Safety App</span></span>
+    </div>
+
+        <nav>
+
+            <a href="index.html">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+           
+            <a href="dashboard.html" class="active">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+
+            <a href="contacts.html">
+                <i class="fa-solid fa-users"></i> Contacts
+            </a>
+
+            <a href="location.html">
+                <i class="fa-solid fa-location-dot"></i> Location
+            </a>
+
+            <a href="safety-tips.html">
+                <i class="fa-solid fa-lightbulb"></i> Safety Tips
+            </a>
+
+            <a href="profile.html">
+                <i class="fa-solid fa-user"></i> Profile
+            </a>
+
+        </nav>
+</header>
+
+<section class="dashboard-welcome">
+    <div>
+        <span class="dashboard-eyebrow">
+            <i class="fa-solid fa-shield-heart"></i> YOUR PERSONAL SAFETY HUB
+        </span>
+        <h1>Emergency Dashboard</h1>
+        <p>Quick access to help, trusted people and your location.</p>
+    </div>
+
+    <div class="dashboard-status">
+        <span class="dashboard-status-dot"></span>
+        Safety tools ready
+    </div>
+</section>
+
+<main class="dashboard-container">
+
+    <!-- Emergency SOS -->
+    <section class="dashboard-sos-card">
+        <div class="dashboard-sos-copy">
+            <span class="sos-label">EMERGENCY ASSISTANCE</span>
+            <h2>Need help right now?</h2>
+            <p>
+                Use SOS to prepare an alert for your saved trusted contact.
+                Make sure you are ready to send the message.
+            </p>
+            <button class="dashboard-sos-button"
+                    type="button"
+                    onclick="dashboardSOS()">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Activate SOS
+            </button>
+            <small>Use only when needed. Confirm the message opens and sends correctly.</small>
+        </div>
+
+        <div class="dashboard-sos-icon">
+            <i class="fa-solid fa-shield-heart"></i>
+        </div>
+    </section>
+
+    <!-- Quick stats -->
+    <section class="dashboard-stats">
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon purple">
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+            <div>
+                <p>Trusted Contacts</p>
+                <h3 id="dashboardContactCount">0</h3>
+                <span id="dashboardContactStatus">No contact saved yet</span>
+            </div>
+        </article>
+
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon pink">
+                <i class="fa-solid fa-location-crosshairs"></i>
+            </div>
+            <div>
+                <p>Location Service</p>
+                <h3>Available</h3>
+                <span>Permission may be required</span>
+            </div>
+        </article>
+
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon green">
+                <i class="fa-solid fa-phone-volume"></i>
+            </div>
+            <div>
+                <p>Emergency Number</p>
+                <h3>112</h3>
+                <span>India emergency helpline</span>
+            </div>
+        </article>
+    </section>
+
+    <!-- Quick actions -->
+    <section class="dashboard-section">
+        <div class="dashboard-section-heading">
+            <div>
+                <span>QUICK ACCESS</span>
+                <h2>Emergency Services</h2>
+            </div>
+        </div>
+
+        <div class="dashboard-action-grid">
+
+            <a href="tel:112" class="dashboard-action-card">
+                <div class="dashboard-action-icon red">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <h3>Call Emergency</h3>
+                <p>Open your phone app to call 112.</p>
+                <span>Call 112 <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <a href="contacts.html" class="dashboard-action-card">
+                <div class="dashboard-action-icon purple">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+                <h3>Trusted Contacts</h3>
+                <p>Add or manage the person you trust.</p>
+                <span>Manage Contacts <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <a href="location.html" class="dashboard-action-card">
+                <div class="dashboard-action-icon blue">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <h3>My Location</h3>
+                <p>Open location tools and share your location.</p>
+                <span>Open Location <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+            <a href="safety-tips.html" class="dashboard-action-card">
+                <div class="dashboard-action-icon orange">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <h3>Safety Tips</h3>
+                <p>Read practical personal safety guidance.</p>
+                <span>View Tips <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Safety checklist -->
+    <section class="dashboard-checklist">
+        <div class="dashboard-checklist-icon">
+            <i class="fa-solid fa-clipboard-check"></i>
+        </div>
+
+        <div class="dashboard-checklist-content">
+            <span>QUICK SAFETY CHECK</span>
+            <h2>Are you prepared?</h2>
+            <p>Tick these items to review your safety setup.</p>
+
+            <label>
+                <input type="checkbox">
+                I have saved a trusted emergency contact.
+            </label>
+
+            <label>
+                <input type="checkbox">
+                I know how to contact emergency services.
+            </label>
+
+            <label>
+                <input type="checkbox">
+                I know how to share my location if needed.
+            </label>
+        </div>
+    </section>
+
+    <p class="dashboard-disclaimer">
+        <i class="fa-solid fa-circle-info"></i>
+        This dashboard does not automatically contact police or track
+        your location in the background. Verify that any call or message
+        has actually been completed.
+    </p>
+
+</main>
+
+<footer>
+    <div class="footer-logo">
+        <i class="fa-solid fa-shield-heart"></i>
+        Women Safety App
+    </div>
+    <p>Women Safety & Emergency Assistance Application</p>
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="contacts.html">Contacts</a>
+        <a href="location.html">Location</a>
+        <a href="safety-tips.html">Safety Tips</a>
+    </div>
+    <div class="copyright">© 2026 Women Safety App. College Project.</div>
+</footer>
+
+<script src="js/script.js"></script>
+
+<script>
+    function dashboardSOS() {
+            activateSOS();
+    }
+
+    function updateDashboardContacts() {
+        let contacts = [];
+
+        try {
+            contacts = JSON.parse(
+                localStorage.getItem("Women Safety App Contacts") || "[]"
+            );
+
+            if (!Array.isArray(contacts)) contacts = [];
+        } catch (error) {
+            contacts = [];
+        }
+
+        const count = document.getElementById("dashboardContactCount");
+        const status = document.getElementById("dashboardContactStatus");
+
+        if (count) count.textContent = contacts.length;
+        if (status) {
+            status.textContent = contacts.length
+                ? "Trusted contact saved"
+                : "Add a trusted contact";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", updateDashboardContacts);
+</script>
+
+</body>
+</html>
