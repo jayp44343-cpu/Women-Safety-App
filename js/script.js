@@ -1050,28 +1050,6 @@ document.addEventListener(
     }
 );
 
-document.addEventListener("DOMContentLoaded", function () {
-    const authButton = document.getElementById("authButton");
-
-    if (!authButton) return;
-
-    const isLoggedIn =
-        localStorage.getItem("Women Safety App LoggedIn") === "true";
-
-    if (isLoggedIn) {
-        authButton.innerHTML = `
-            <button class="login-btn" onclick="logoutUser()">
-                Logout
-            </button>
-        `;
-    } else {
-        authButton.innerHTML = `
-            <a href="login.html" class="login-btn">Login</a>
-        `;
-    }
-});
-
-
 function forgotPassword(event) {
     if (event) event.preventDefault();
 
@@ -1128,35 +1106,36 @@ function forgotPassword(event) {
     alert("Password updated successfully! You can now log in.");
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const isProfilePage =
-        window.location.pathname.toLowerCase().endsWith("profile.html");
+        window.location.pathname.toLowerCase().endsWith("/profile.html");
 
-    document.querySelectorAll("nav a, header a").forEach(function (link) {
-        const text = link.textContent.trim().toLowerCase();
+    const authButton = document.getElementById("authButton");
 
-        if (text === "login" || text === "logout") {
-            if (!isProfilePage) {
-                link.style.display = "none";
+    if (authButton) {
+        if (!isProfilePage) {
+            authButton.innerHTML = "";
+        } else {
+            const isLoggedIn =
+                localStorage.getItem("Women Safety App LoggedIn") === "true";
+
+            if (isLoggedIn) {
+                authButton.innerHTML =
+                    '<button type="button" class="login-btn" onclick="logoutUser()">Logout</button>';
             } else {
-                const isLoggedIn =
-                    localStorage.getItem("Women Safety App LoggedIn") === "true";
-
-                if (isLoggedIn) {
-                    link.textContent = "Logout";
-                    link.style.display = "";
-                    link.href = "#";
-
-                    link.onclick = function (event) {
-                        event.preventDefault();
-                        localStorage.removeItem("Women Safety App LoggedIn");
-                        localStorage.removeItem("loggedInUser");
-                        window.location.href = "login.html";
-                    };
-                } else {
-                    link.style.display = "none";
-                }
+                authButton.innerHTML = "";
             }
         }
-    });
+    }
+
+    if (!isProfilePage) {
+        document.querySelectorAll("nav a, header a").forEach(function (link) {
+            const text = link.textContent.trim().toLowerCase();
+
+            if (text === "login" || text === "logout") {
+                link.style.display = "none";
+            }
+        });
+    }
 });
