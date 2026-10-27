@@ -2677,3 +2677,23 @@ footer p {
     background: #991b1b !important;
     transform: translateY(-2px);
 }
+
+
+/* Fix: Show Login button */
+form#loginForm button.login-submit {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
+    min-height: 50px;
+    margin: 15px 0;
+    background: linear-gradient(135deg, #7028e4, #e91e9b);
+    color: #ffffff;
+    border: none;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+}

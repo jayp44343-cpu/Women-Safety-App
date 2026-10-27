@@ -1106,12 +1106,3 @@ function forgotPassword(event) {
     alert("Password updated successfully! You can now log in.");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("a, button").forEach(function (element) {
-        const text = element.textContent.trim().toLowerCase();
-
-        if (text === "login" || text === "logout") {
-            element.style.setProperty("display", "none", "important");
-        }
-    });
-});
